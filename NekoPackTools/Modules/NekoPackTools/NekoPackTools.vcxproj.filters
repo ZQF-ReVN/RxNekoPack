@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FileHook">
+      <UniqueIdentifier>{6b40a0fd-f7cc-4a7e-a1f4-f0bb714fb9ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MNG">
+      <UniqueIdentifier>{145ee412-c671-4953-a27d-f05ac72e495d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FileHook.cpp">
+      <Filter>FileHook</Filter>
+    </ClCompile>
+    <ClCompile Include="MNG.cpp">
+      <Filter>MNG</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileHook.h">
+      <Filter>FileHook</Filter>
+    </ClInclude>
+    <ClInclude Include="MNG.h">
+      <Filter>MNG</Filter>
+    </ClInclude>
+    <ClInclude Include="MNG_Struct.h">
+      <Filter>MNG</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
