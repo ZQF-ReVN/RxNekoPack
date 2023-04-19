@@ -7,8 +7,8 @@ static DWORD g_dwExeBase = (DWORD)GetModuleHandleW(NULL);
 
 VOID StartHook()
 {
-	//NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3BA8);
-	NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF190C);
+	NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3BA8);
+	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF190C);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
