@@ -7,6 +7,9 @@
     <Filter Include="MNG">
       <UniqueIdentifier>{145ee412-c671-4953-a27d-f05ac72e495d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{34476804-1aa1-41e9-882f-bbf44caca7bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileHook.cpp">
@@ -14,6 +17,9 @@
     </ClCompile>
     <ClCompile Include="MNG.cpp">
       <Filter>MNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +31,9 @@
     </ClInclude>
     <ClInclude Include="MNG_Struct.h">
       <Filter>MNG</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Text</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

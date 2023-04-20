@@ -30,10 +30,10 @@ namespace NekoPackTools
 			bool Write(std::ofstream& refStream);
 			static bool LoadChunks(std::wstring wsMNG, std::list<Chunk>& listChunk);
 
-			uint32_t GetSize() { return m_uiChunkSize; }
-			uint32_t GetName() { return m_uiChunkName; }
-			uint32_t GetCrc()  { return m_uiChunkCrc; }
-			uint8_t* GetData() { return m_pChunkData; }
+			uint32_t GetSize() const { return m_uiChunkSize; }
+			uint32_t GetName() const { return m_uiChunkName; }
+			uint32_t GetCrc()  const { return m_uiChunkCrc; }
+			uint8_t* GetData() const { return m_pChunkData; }
 		};
 
 
@@ -49,8 +49,8 @@ namespace NekoPackTools
 
 			static bool FindFrame(std::list<Chunk>& listChunk, std::vector<Frame>& vecFrame);
 
-			std::list<Chunk>::iterator GetBeg() { return m_iteBeg; }
-			std::list<Chunk>::iterator GetEnd() { return m_iteEnd; }
+			std::list<Chunk>::iterator GetBeg() const { return m_iteBeg; }
+			std::list<Chunk>::iterator GetEnd() const { return m_iteEnd; }
 		};
 
 
@@ -62,8 +62,8 @@ namespace NekoPackTools
 
 			PNG(std::wstring wsPNG) : m_wsPNG(wsPNG) {}
 
-			bool LoadPNG();
-			bool MergeInfo();
+			bool Load();
+			bool Merge();
 
 			std::list<Chunk>& GetChunkList() { return m_listChunk; }
 		};
@@ -82,12 +82,12 @@ namespace NekoPackTools
 			bool LoadMNG();
 			bool SaveMNG();
 			bool BuildMNG();
-			bool ExtractMultiplePNG();
+			bool ExtractMultipleFrame();
 
 		private:
 			bool LoadMHDR(std::wstring wsFile);
 			bool SaveMHDR(std::wstring wsFile);
-			bool ExtractFrame(std::wstring wsPNG, Frame& refFrame);
+			bool ExtractSingleFrame(std::wstring wsPNG, Frame& refFrame);
 
 		};
 	}

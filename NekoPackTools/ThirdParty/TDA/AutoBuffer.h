@@ -12,6 +12,8 @@ namespace TDA
 
 	public:
 		AutoBuffer();
+		AutoBuffer(const AutoBuffer& buffer);
+		AutoBuffer(AutoBuffer&& buffer) noexcept;
 		AutoBuffer(std::wstring wsFile);
 		~AutoBuffer();
 

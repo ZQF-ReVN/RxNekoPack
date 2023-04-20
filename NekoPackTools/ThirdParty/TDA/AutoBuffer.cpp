@@ -10,6 +10,30 @@ namespace TDA
 
 	}
 
+	AutoBuffer::AutoBuffer(const AutoBuffer& buffer)
+	{
+		if (buffer.m_pBuffer != nullptr)
+		{
+			this->m_szMaxAlloc = buffer.m_szMaxAlloc;
+			this->m_pBuffer = new uint8_t[buffer.m_szMaxAlloc];
+			memcpy(m_pBuffer, buffer.m_pBuffer, m_szMaxAlloc);
+		}
+		else
+		{
+			this->m_pBuffer = nullptr;
+			this->m_szMaxAlloc = 0;
+		}
+	}
+
+	AutoBuffer::AutoBuffer(AutoBuffer&& buffer) noexcept
+	{
+		this->m_pBuffer = buffer.m_pBuffer;
+		this->m_szMaxAlloc = buffer.m_szMaxAlloc;
+
+		buffer.m_pBuffer = nullptr;
+		buffer.m_szMaxAlloc = 0;
+	}
+
 	AutoBuffer::AutoBuffer(std::wstring wsFile) : m_pBuffer(nullptr), m_szMaxAlloc(0)
 	{
 		LoadFile(wsFile);
@@ -56,7 +80,7 @@ namespace TDA
 		if (!ifs.is_open()) return 0;
 
 		size_t sizeFile = static_cast<size_t>(FileX::GetFileSize(ifs));
-		ifs.read((char*)(ReSize(sizeFile)), sizeFile);
+		ifs.read((char*)ReSize(sizeFile), sizeFile);
 
 		return sizeFile;
 	}

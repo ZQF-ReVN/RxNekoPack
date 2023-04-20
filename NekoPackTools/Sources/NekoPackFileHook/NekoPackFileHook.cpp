@@ -2,6 +2,7 @@
 
 #include "../../Modules/NekoPackTools/FileHook.h"
 
+
 static DWORD g_dwExeBase = (DWORD)GetModuleHandleW(NULL);
 
 

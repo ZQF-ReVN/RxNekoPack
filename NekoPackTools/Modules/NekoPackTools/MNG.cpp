@@ -1,4 +1,5 @@
 #include "MNG.h"
+#include "../../ThirdParty/TDA/ConsoleX.h"
 #include "../../ThirdParty/TDA/FileX.h"
 #include "../../ThirdParty/TDA/AutoBuffer.h"
 
@@ -26,16 +27,12 @@ namespace NekoPackTools
 		static const uint8_t MNG_Signature[0x8] = { 0x8A, 0x4D, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 		static const uint8_t PNG_Signature[0x8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 		static const uint8_t MNG_END[0xC] = { 0x00, 0x00, 0x00, 0x00, 0x4D, 0x45, 0x4E, 0x44, 0x21, 0x20, 0xF7, 0xD5 };
-
+		static const uint8_t PNG_END[0xC] = { 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82 };
 
 		//****************
 		//*    Chunk    *
 		//****************
-		Chunk::Chunk() :
-			m_uiChunkSize(0), m_uiChunkName(0), m_uiChunkCrc(0), m_pChunkData(nullptr)
-		{
-
-		}
+		Chunk::Chunk() : m_uiChunkSize(0), m_uiChunkName(0), m_uiChunkCrc(0), m_pChunkData(nullptr) {}
 
 		Chunk::Chunk(const Chunk& refChunk)
 		{
@@ -147,14 +144,14 @@ namespace NekoPackTools
 			//Create File
 			std::ofstream ofs(wsFrame, std::ios::binary);
 			if (!ofs.is_open()) return false;
-			std::ofstream ofs_bin(wsFrame + L".INFO", std::ios::binary);
-			if (!ofs_bin.is_open()) return false;
+			std::ofstream ofs_info(wsFrame + L".INFO", std::ios::binary);
+			if (!ofs_info.is_open()) return false;
 
 			//Write PNG Signature
 			ofs.write(reinterpret_cast<const char*>(PNG_Signature), sizeof(PNG_Signature));
 
 			//Write PNG Data
-			auto saveChunk = [&ofs, &ofs_bin](Chunk& chunk) 
+			auto saveChunk = [&ofs, &ofs_info](Chunk& chunk) 
 			{ 
 				switch (chunk.GetName())
 				{
@@ -168,7 +165,7 @@ namespace NekoPackTools
 
 				default:
 				{
-					chunk.Write(ofs_bin);
+					chunk.Write(ofs_info);
 				}
 				break;
 				}
@@ -186,42 +183,29 @@ namespace NekoPackTools
 			auto iteBeg = listChunk.end();
 			auto iteEnd = listChunk.end();
 
-			for (auto ite = listChunk.begin(); ite != listChunk.end(); ite++)
+			for (auto iteChunk = listChunk.begin(); iteChunk != listChunk.end(); iteChunk++)
 			{
-				switch (ite->GetName())
+				switch (iteChunk->GetName())
 				{
-				case DEFI:
-				{
-					iteBeg = ite;
-					continue;
-				}
-				break;
+				case DEFI: { iteBeg = iteChunk; } break;
 
-				case IHDR:
+				case IHDR: 
 				{
-					if (iteBeg == listChunk.end())
-					{
-						iteBeg = ite;
-					}
+					if (iteBeg == listChunk.end()) { iteBeg = iteChunk; }
 				}
 				break;
 
 				case IEND:
 				{
-					iteEnd = ite;
+					iteEnd = iteChunk;
 
-					if (iteBeg == listChunk.end())
-					{
-						return false;
-					}
-					else
-					{
-						frame.SetRange(iteBeg, ++iteEnd);
-						vecFrame.emplace_back(frame);
+					if (iteBeg == listChunk.end()) { return false; }
 
-						iteBeg = listChunk.end();
-						iteEnd = listChunk.end();
-					}
+					frame.SetRange(iteBeg, ++iteEnd);
+					vecFrame.emplace_back(frame);
+
+					iteBeg = listChunk.end();
+					iteEnd = listChunk.end();
 				}
 				break;
 
@@ -235,6 +219,50 @@ namespace NekoPackTools
 		{
 			m_iteBeg = iteIHDR;
 			m_iteEnd = iteIEND;
+		}
+
+
+        //****************
+        //*     PNG      *
+        //****************
+		bool PNG::Load()
+		{
+			return Chunk::LoadChunks(m_wsPNG, m_listChunk);
+		}
+
+		bool PNG::Merge()
+		{
+			std::list<Chunk> listInfoChunk;
+			if (!Chunk::LoadChunks(m_wsPNG + L".INFO", listInfoChunk)) { return false; }
+
+			//Find IHDR
+			auto iteIHDR = m_listChunk.begin();
+			for (auto ite = m_listChunk.begin(); ite != m_listChunk.end(); ite++)
+			{
+				if (ite->GetName() == IHDR) { iteIHDR = ++ite; break; }
+			}
+
+			//Insert INFO
+			for (auto pChunk = listInfoChunk.begin(); pChunk != listInfoChunk.end();)
+			{
+				switch (pChunk->GetName())
+				{
+				case DEFI:
+				{
+					m_listChunk.emplace_front(std::move(*pChunk));
+					pChunk = listInfoChunk.erase(pChunk);
+					continue;
+				}
+				break;
+
+				default: {	m_listChunk.insert(iteIHDR, *pChunk); }
+
+				}
+
+				pChunk++;
+			}
+
+			return true;
 		}
 
 
@@ -257,10 +285,7 @@ namespace NekoPackTools
 
 			ofs.write(reinterpret_cast<const char*>(MNG_Signature), sizeof(MNG_Signature));
 
-			for (auto& chunk : m_listChunk)
-			{
-				chunk.Write(ofs);
-			}
+			for (auto& chunk : m_listChunk) { chunk.Write(ofs); }
 
 			ofs.flush();
 			return true;
@@ -277,8 +302,8 @@ namespace NekoPackTools
 			for (; ; count++)
 			{
 				PNG png(path + L"-" + std::to_wstring(count) + L".png");
-				if (!png.LoadPNG()) { break; }
-				if (!png.MergeInfo()) { break; }
+				if (!png.Load()) { break; }
+				if (!png.Merge()) { break; }
 				m_listChunk.splice(m_listChunk.end(), png.GetChunkList());
 			}
 
@@ -305,80 +330,40 @@ namespace NekoPackTools
 				{
 					chunk.Write(ofs_MHDR);
 					ofs_MHDR.flush();
-					break;
+					return true;
 				}
 			}
 
-			return true;
+			return false;
 		}
 
-		bool MNG_Editor::ExtractFrame(std::wstring wsPNG, Frame& refFrame)
+		bool MNG_Editor::ExtractSingleFrame(std::wstring wsPNG, Frame& refFrame)
 		{
-			return refFrame.SaveFrame(wsPNG);
+			if (refFrame.SaveFrame(wsPNG))
+			{
+				TDA::ConsoleX::PutConsoleW(L"Save Frame: %s\n", wsPNG.c_str());
+				return true;
+			}
+			else
+			{
+				TDA::ConsoleX::PutConsoleW(L"Failed Save Frame: %s\n", wsPNG.c_str());
+				return false;
+			}
 		}
 
-		bool MNG_Editor::ExtractMultiplePNG()
+		bool MNG_Editor::ExtractMultipleFrame()
 		{
 			std::wstring folder = m_wsMNG.substr(0, m_wsMNG.size() - 4) + L"/";
+			std::wstring path = folder + m_wsMNG.substr(0, m_wsMNG.size() - 4);
+
 			(void)_wmkdir(folder.c_str());
 
-			std::wstring path = folder + m_wsMNG.substr(0, m_wsMNG.size() - 4);
 			SaveMHDR(path + L".MHDR");
 
 			std::size_t count = 0;
-			for (auto& frame : m_vecFrame)
-			{
-				ExtractFrame(path + L"-" + std::to_wstring(count++) + L".png", frame);
-			}
-
-			return true;
-		}
-
-        //****************
-        //*     PNG      *
-        //****************
-		bool PNG::LoadPNG()
-		{
-			return Chunk::LoadChunks(m_wsPNG, m_listChunk);
-		}
-
-		bool PNG::MergeInfo()
-		{
-			std::list<Chunk> listInfoChunk;
-			if (!Chunk::LoadChunks(m_wsPNG + L".INFO", listInfoChunk)) { return false; }
-
-			//Find IHDR
-			auto iteIHDR = m_listChunk.begin();
-			for (auto ite = m_listChunk.begin(); ite != m_listChunk.end(); ite++)
-			{
-				if (ite->GetName() == IHDR)
-				{
-					iteIHDR = ++ite;
-					break;
-				}
-			}
-
-			//Insert INFO
-			for (auto pChunk = listInfoChunk.begin();pChunk != listInfoChunk.end();)
-			{
-				switch (pChunk->GetName())
-				{
-				case DEFI: 
-				{
-					m_listChunk.emplace_front(std::move(*pChunk));
-					pChunk = listInfoChunk.erase(pChunk);
-					continue;
-				}
-				break;
-
-				default:
-				{
-					m_listChunk.insert(iteIHDR, *pChunk);
-				}
-
-				}
-
-				pChunk++;
+			for (auto& frame : m_vecFrame) 
+			{ 
+				ExtractSingleFrame(path + L"-" + std::to_wstring(count++) + L".png", frame); 
 			}
 
 			return true;

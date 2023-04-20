@@ -21,21 +21,21 @@ namespace TDA
 		return cvtUTF8;
 	}
 
-	std::wstring StringX::StrToWStr(std::string& msString, size_t uCodePage)
+	std::wstring StringX::StrToWStr(const std::string& msString, size_t uCodePage)
 	{
 		std::wstring wsString;
 		if (!StrToWStr(msString, wsString, uCodePage)) wsString = L"";
 		return wsString;
 	}
 
-	std::string StringX::WStrToStr(std::wstring& wsString, size_t uCodePage)
+	std::string StringX::WStrToStr(const std::wstring& wsString, size_t uCodePage)
 	{
 		std::string msString;
 		if (!WStrToStr(wsString, msString, uCodePage)) msString = "";
 		return msString;
 	}
 
-	size_t StringX::StrToWStr(std::string& msString, std::wstring& wsString, size_t uCodePage)
+	size_t StringX::StrToWStr(const std::string& msString, std::wstring& wsString, size_t uCodePage)
 	{
 		int charCount = MultiByteToWideChar
 		(
@@ -54,7 +54,7 @@ namespace TDA
 		return charCount;
 	}
 
-	size_t StringX::WStrToStr(std::wstring& wsString, std::string& msString, size_t uCodePage)
+	size_t StringX::WStrToStr(const std::wstring& wsString, std::string& msString, size_t uCodePage)
 	{
 		int wcharCount = WideCharToMultiByte
 		(
@@ -73,14 +73,14 @@ namespace TDA
 		return wcharCount;
 	}
 
-	std::wstring StringX::StrToWStr_CVT(std::string& msString, size_t uCodePage)
+	std::wstring StringX::StrToWStr_CVT(const std::string& msString, size_t uCodePage)
 	{
 		std::wstring wsString;
 		StrToWStr_CVT(msString, wsString, uCodePage);
 		return wsString;
 	}
 
-	std::string StringX::WStrToStr_CVT(std::wstring& wsString, size_t uCodePage)
+	std::string StringX::WStrToStr_CVT(const std::wstring& wsString, size_t uCodePage)
 	{
 		std::string msString;
 		WStrToStr_CVT(wsString, msString, uCodePage);
@@ -88,7 +88,7 @@ namespace TDA
 	}
 
 	//Essentially it is still call MultiByteToWideChar / WideCharToMultiByte
-	void StringX::StrToWStr_CVT(std::string& msString, std::wstring& wsString, size_t uCodePage)
+	void StringX::StrToWStr_CVT(const std::string& msString, std::wstring& wsString, size_t uCodePage)
 	{
 		std::wstring_convert<std::codecvt_byname<wchar_t, char, mbstate_t>> cvtString
 		(
@@ -97,7 +97,7 @@ namespace TDA
 		wsString = cvtString.from_bytes(msString);
 	}
 
-	void StringX::WStrToStr_CVT(std::wstring& wsString, std::string& msString, size_t uCodePage)
+	void StringX::WStrToStr_CVT(const std::wstring& wsString, std::string& msString, size_t uCodePage)
 	{
 		std::wstring_convert<std::codecvt_byname<wchar_t, char, mbstate_t>> cvtString
 		(
