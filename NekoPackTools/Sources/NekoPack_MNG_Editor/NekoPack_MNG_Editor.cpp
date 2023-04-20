@@ -26,7 +26,7 @@ int wmain(int argc, wchar_t* argv[])
 
 	switch (*argv[1])
 	{
-	case L'E': 
+	case L'E':
 	{
 		NekoPackTools::MNG::MNG_Editor mng(argv[2]);
 		mng.LoadMNG();

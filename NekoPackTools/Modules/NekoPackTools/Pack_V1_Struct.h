@@ -3,7 +3,7 @@
 
 namespace NekoPackTools
 {
-	namespace NEKOPACK_V1
+	namespace Pack_V1
 	{
 		struct NEKOPACK_V1_Header
 		{

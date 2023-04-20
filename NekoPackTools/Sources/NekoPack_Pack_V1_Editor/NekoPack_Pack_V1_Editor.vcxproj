@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{956a4406-3bb1-4673-b7ab-28372972a496}</ProjectGuid>
-    <RootNamespace>NekPackTextEditor</RootNamespace>
+    <ProjectGuid>{18dcbfbc-8729-4509-bbd3-bd38ac8fd6ac}</ProjectGuid>
+    <RootNamespace>NekoPackPackV1Editor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NekPackTextEditor.cpp" />
+    <ClCompile Include="NekoPack_Pack_V1_Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\NekoPackTools\NekoPackTools.vcxproj">

@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NEKOPACK_V1.cpp" />
+    <ClCompile Include="Pack_V1.cpp" />
     <ClCompile Include="FileHook.cpp" />
     <ClCompile Include="MNG.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -136,8 +136,8 @@
     <ClInclude Include="FileHook.h" />
     <ClInclude Include="MNG.h" />
     <ClInclude Include="MNG_Struct.h" />
-    <ClInclude Include="NEKOPACK_V1.h" />
-    <ClInclude Include="NEKOPACK_V1_Struct.h" />
+    <ClInclude Include="Pack_V1.h" />
+    <ClInclude Include="Pack_V1_Struct.h" />
     <ClInclude Include="Text.h" />
   </ItemGroup>
   <ItemGroup>

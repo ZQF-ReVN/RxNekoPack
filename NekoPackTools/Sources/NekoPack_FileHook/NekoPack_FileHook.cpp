@@ -1,4 +1,4 @@
-Ôªø#include <Windows.h>
+#include <Windows.h>
 
 #include "../../Modules/NekoPackTools/FileHook.h"
 
@@ -8,15 +8,15 @@ static DWORD g_dwExeBase = (DWORD)GetModuleHandleW(NULL);
 
 VOID StartHook()
 {
-	//Â∞ëÂ•≥„Éû„Ç§„Éé„É™„ÉÜ„Ç£-ÊÖ∞„ÇÅ„ÅÆÊÑõ- patch 101
+	//…Ÿ≈Æ•ﬁ•§•Œ•Í•∆•£-Œø§·§Œê€- patch 101
 	NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0x7CE4C);
 	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0x7AA60);
 
-	//Â∞ëÂ•≥„Ç¢„ÇØ„ÉÜ„Ç£„Éì„ÉÜ„Ç£ patch 102
+	//…Ÿ≈Æ•¢•Ø•∆•£•”•∆•£ patch 102
 	//NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3684);
 	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF13E8);
 
-	//„ÇΩ„É©„Ç≥„Ç§
+	//•Ω•È•≥•§
 	//NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3BA8);
 	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF190C);
 }

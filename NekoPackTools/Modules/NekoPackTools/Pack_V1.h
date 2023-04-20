@@ -3,14 +3,14 @@
 #include <vector>
 #include <cstdint>
 
-#include "NEKOPACK_V1_Struct.h"
+#include "Pack_V1_Struct.h"
 
 
 namespace NekoPackTools
 {
-	namespace NEKOPACK_V1
+	namespace Pack_V1
 	{
-		class NEKOPACK_Editor
+		class Pack_Editor
 		{
 		private:
 			std::string m_msPack;
@@ -18,7 +18,7 @@ namespace NekoPackTools
 			std::vector<NEKOPACK_V1_Entry> m_vecIndex;
 
 		public:
-			NEKOPACK_Editor(const std::string& msPack) : m_msPack(msPack), m_Header({ 0 }) { }
+			Pack_Editor(const std::string& msPack) : m_msPack(msPack), m_Header({ 0 }) { }
 
 			bool Init();
 			bool Extract();
