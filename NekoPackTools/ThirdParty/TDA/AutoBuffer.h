@@ -8,19 +8,22 @@ namespace TDA
 	{
 	private:
 		uint8_t* m_pBuffer;
-		size_t m_szMaxAlloc;
+		size_t   m_szMaxAlloc;
 
 	public:
 		AutoBuffer();
 		AutoBuffer(const AutoBuffer& buffer);
 		AutoBuffer(AutoBuffer&& buffer) noexcept;
-		AutoBuffer(std::wstring wsFile);
+		AutoBuffer(const std::wstring& wsFile);
+		AutoBuffer(const std::wstring& wsFile, size_t szFile);
 		~AutoBuffer();
 
 		uint8_t* ReSize(size_t szRes);
-		size_t LoadFile(std::wstring wsFile);
+		uint8_t* LoadFile(const std::wstring& wsFile);
+		uint8_t* LoadFile(const std::wstring& wsFile, size_t szFile);
+		bool     SaveToFile(const std::wstring& wsFile);
 
-		size_t GetMaxSize() { return m_szMaxAlloc; }
+		size_t   GetMaxSize() { return m_szMaxAlloc; }
 		uint8_t* GetPointer() { return m_pBuffer; }
 
 		void Clear();

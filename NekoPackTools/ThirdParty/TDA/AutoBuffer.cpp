@@ -34,9 +34,14 @@ namespace TDA
 		buffer.m_szMaxAlloc = 0;
 	}
 
-	AutoBuffer::AutoBuffer(std::wstring wsFile) : m_pBuffer(nullptr), m_szMaxAlloc(0)
+	AutoBuffer::AutoBuffer(const std::wstring& wsFile) : m_pBuffer(nullptr), m_szMaxAlloc(0)
 	{
 		LoadFile(wsFile);
+	}
+
+	AutoBuffer::AutoBuffer(const std::wstring& wsFile, size_t szFile) : m_pBuffer(nullptr), m_szMaxAlloc(0)
+	{
+		LoadFile(wsFile, szFile);
 	}
 
 	AutoBuffer::~AutoBuffer()
@@ -74,14 +79,31 @@ namespace TDA
 		m_pBuffer = nullptr;
 	}
 
-	size_t AutoBuffer::LoadFile(std::wstring wsFile)
+	uint8_t* AutoBuffer::LoadFile(const std::wstring& wsFile)
+	{
+		return LoadFile(wsFile, -1);
+	}
+
+	uint8_t* AutoBuffer::LoadFile(const std::wstring& wsFile, size_t szFile)
 	{
 		std::ifstream ifs(wsFile, std::ios::binary);
-		if (!ifs.is_open()) return 0;
+		if (!ifs.is_open()) return nullptr;
 
-		size_t sizeFile = static_cast<size_t>(FileX::GetFileSize(ifs));
-		ifs.read((char*)ReSize(sizeFile), sizeFile);
+		if (szFile == -1) { szFile = static_cast<size_t>(FileX::GetFileSize(ifs)); }
 
-		return sizeFile;
+		ifs.read(reinterpret_cast<char*>(ReSize(szFile)), szFile);
+
+		return GetPointer();
+	}
+
+	bool AutoBuffer::SaveToFile(const std::wstring& wsFile)
+	{
+		std::ofstream ofs(wsFile, std::ios::binary);
+		if (!ofs.is_open()) return false;
+
+		ofs.write(reinterpret_cast<char*>(GetPointer()), GetMaxSize());
+
+		ofs.flush();
+		return true;
 	}
 }

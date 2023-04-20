@@ -5,6 +5,10 @@
 
 int wmain(int argc, wchar_t* argv[])
 {
+	NekoPackTools::Text::Editor editor;
+	editor.SetCodePage(932, 936);
+	editor.Insert(L"pm3k1.txt");
+
 	if (argc == 1)
 	{
 		std::cout
@@ -39,5 +43,7 @@ int wmain(int argc, wchar_t* argv[])
 		editor.Insert(argv[2]);
 	}
 	break;
+
+	default: std::cout << "MODE Error!" << std::endl;
 	}
 }

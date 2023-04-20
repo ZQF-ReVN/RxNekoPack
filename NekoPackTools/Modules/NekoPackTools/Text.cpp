@@ -156,6 +156,7 @@ namespace NekoPackTools
 
 				switch (script[0])
 				{
+				case L'#': break;
 				case L'.': break;
 				case L';': break;
 				case L'\t': break;

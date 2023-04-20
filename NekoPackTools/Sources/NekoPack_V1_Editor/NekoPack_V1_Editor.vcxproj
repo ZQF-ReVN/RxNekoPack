@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d39049a0-6fb7-41f5-acb1-0f07c7dbce65}</ProjectGuid>
-    <RootNamespace>NekoPackTools</RootNamespace>
+    <ProjectGuid>{a33cdd40-9d5d-4cb0-b126-16b9bf8b12f1}</ProjectGuid>
+    <RootNamespace>NekoPackV1Editor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -127,23 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NEKOPACK_V1.cpp" />
-    <ClCompile Include="FileHook.cpp" />
-    <ClCompile Include="MNG.cpp" />
-    <ClCompile Include="Text.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="FileHook.h" />
-    <ClInclude Include="MNG.h" />
-    <ClInclude Include="MNG_Struct.h" />
-    <ClInclude Include="NEKOPACK_V1.h" />
-    <ClInclude Include="NEKOPACK_V1_Struct.h" />
-    <ClInclude Include="Text.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ThirdParty\TDA\TDA.vcxproj">
-      <Project>{6025b745-02f7-47ea-9911-35649da8cea0}</Project>
+    <ProjectReference Include="..\..\Modules\NekoPackTools\NekoPackTools.vcxproj">
+      <Project>{d39049a0-6fb7-41f5-acb1-0f07c7dbce65}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NekoPack_V1_Editor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

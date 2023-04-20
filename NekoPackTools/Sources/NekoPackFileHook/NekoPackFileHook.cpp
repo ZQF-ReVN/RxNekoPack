@@ -8,7 +8,16 @@ static DWORD g_dwExeBase = (DWORD)GetModuleHandleW(NULL);
 
 VOID StartHook()
 {
-	NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3BA8);
+	//少女マイノリティ-慰めの愛- patch 101
+	NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0x7CE4C);
+	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0x7AA60);
+
+	//少女アクティビティ patch 102
+	//NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3684);
+	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF13E8);
+
+	//ソラコイ
+	//NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3BA8);
 	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF190C);
 }
 

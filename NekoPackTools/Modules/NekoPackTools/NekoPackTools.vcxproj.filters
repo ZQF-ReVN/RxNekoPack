@@ -10,6 +10,9 @@
     <Filter Include="Text">
       <UniqueIdentifier>{34476804-1aa1-41e9-882f-bbf44caca7bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NEKOPACK_V1">
+      <UniqueIdentifier>{fa77f2e7-507e-41e2-926d-bcd52fc7b0f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileHook.cpp">
@@ -20,6 +23,9 @@
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="NEKOPACK_V1.cpp">
+      <Filter>NEKOPACK_V1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +40,12 @@
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="NEKOPACK_V1.h">
+      <Filter>NEKOPACK_V1</Filter>
+    </ClInclude>
+    <ClInclude Include="NEKOPACK_V1_Struct.h">
+      <Filter>NEKOPACK_V1</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
