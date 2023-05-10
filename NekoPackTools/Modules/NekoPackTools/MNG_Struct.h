@@ -1,13 +1,27 @@
-#pragma once
+﻿#pragma once
 #include <cstdint>
 
 
 namespace NekoPackTools
 {
-	namespace MNG
+	namespace Picture
 	{
+		static const uint32_t MHDR = 0x4D484452;
+		static const uint32_t MEND = 0x4D454E44;
+		static const uint32_t DEFI = 0x44454649;
+		static const uint32_t oFFs = 0x6F464673;
+		static const uint32_t tEXt = 0x74455874;
+		static const uint32_t IHDR = 0x49484452;
+		static const uint32_t IDAT = 0x49444154;
+		static const uint32_t IEND = 0x49454E44;
+
+		static const uint8_t MNG_Signature[0x8] = { 0x8A, 0x4D, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+		static const uint8_t PNG_Signature[0x8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+		static const uint8_t MNG_END[0xC] = { 0x00, 0x00, 0x00, 0x00, 0x4D, 0x45, 0x4E, 0x44, 0x21, 0x20, 0xF7, 0xD5 };
+		static const uint8_t PNG_END[0xC] = { 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82 };
+
 #pragma pack(1)
-		static struct MHDR_Chunk
+		struct MHDR_Chunk
 		{
 			uint32_t uiFrame_Width;
 			uint32_t uiFrame_Height;
@@ -18,7 +32,7 @@ namespace NekoPackTools
 			uint32_t Simplicity_Profile;
 		};
 
-		static struct DEFI_Chunk
+		struct DEFI_Chunk
 		{
 			uint16_t usObject_ID;
 			uint8_t ucDo_Not_Show;
@@ -31,7 +45,7 @@ namespace NekoPackTools
 			uint32_t uiBottom_CB;
 		};
 
-		static struct IHDR
+		struct IHDR
 		{
 			uint32_t uiWidth;
 			uint32_t uiHeight;

@@ -3,7 +3,7 @@
 
 namespace NekoPackTools
 {
-	namespace FileHook
+	namespace Pack
 	{
 		bool SetFileHook(DWORD dwPackResLoadRaw);
 		bool SetFileDump(DWORD dwPackResReadRaw);

@@ -1,11 +1,11 @@
-#include "FileHook.h"
-#include "../../ThirdParty/TDA/DetoursX.h"
-#include "../../ThirdParty/TDA/FileX.h"
+﻿#include "FileHook.h"
+#include "../../ThirdParty/Rut/HookX.h"
+#include "../../ThirdParty/Rut/FileX.h"
 
 
 namespace NekoPackTools
 {
-	namespace FileHook
+	namespace Pack
 	{
 		//*************
 		//* Find File *
@@ -74,12 +74,12 @@ namespace NekoPackTools
 				lstrcpyA(g_aDump_RelativePath, "Dump/");
 				lstrcatA(g_aDump_RelativePath, lpFolder);
 
-				TDA::FileX::BackSlash(g_aDump_RelativePath);
+				Rut::FileX::BackSlash(g_aDump_RelativePath);
 
 				lstrcatA(g_aDump_RelativePath, "\\");
 				lstrcatA(g_aDump_RelativePath, lpResName);
 
-				TDA::FileX::SaveFileViaPath(g_aDump_RelativePath, (void*)pStream->dwBuffer, pStream->dwSize);
+				Rut::FileX::SaveFileViaPath(g_aDump_RelativePath, (void*)pStream->dwBuffer, pStream->dwSize);
 			}
 
 			return pInfo;
@@ -91,13 +91,13 @@ namespace NekoPackTools
 		bool SetFileHook(DWORD dwPackResLoadRaw)
 		{
 			PackResLoadRaw = (fnPackResLoad)dwPackResLoadRaw;
-			return TDA::DetoursX::DetourAttachFunc(&PackResLoadRaw, PackResLoadNew);
+			return Rut::HookX::DetourAttachFunc(&PackResLoadRaw, PackResLoadNew);
 		}
 
 		bool SetFileDump(DWORD dwPackResReadRaw)
 		{
 			PackResReadRaw = (pPackResRead)dwPackResReadRaw;
-			return TDA::DetoursX::DetourAttachFunc(&PackResReadRaw, PackResReadNew);
+			return Rut::HookX::DetourAttachFunc(&PackResReadRaw, PackResReadNew);
 		}
 	}
 }

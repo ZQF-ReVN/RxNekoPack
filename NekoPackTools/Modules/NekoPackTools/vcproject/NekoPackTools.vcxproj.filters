@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Pack">
+      <UniqueIdentifier>{3c8ee2a1-e0d0-468d-86a7-07486d8c559b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pack\NEKOPACK_V1">
+      <UniqueIdentifier>{fa77f2e7-507e-41e2-926d-bcd52fc7b0f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pack\FileHook">
+      <UniqueIdentifier>{6b40a0fd-f7cc-4a7e-a1f4-f0bb714fb9ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Picture">
+      <UniqueIdentifier>{4af89ae3-a1c8-47a1-bff1-4331f35a1b84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Picture\MNG">
+      <UniqueIdentifier>{145ee412-c671-4953-a27d-f05ac72e495d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{cdc84680-be0a-4847-8e2c-3812ceccc137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Text">
+      <UniqueIdentifier>{34476804-1aa1-41e9-882f-bbf44caca7bd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FileHook.cpp">
+      <Filter>Pack\FileHook</Filter>
+    </ClCompile>
+    <ClCompile Include="MNG.cpp">
+      <Filter>Picture\MNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Script\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="NEKOPACK_V1.cpp">
+      <Filter>Pack\NEKOPACK_V1</Filter>
+    </ClCompile>
+    <ClCompile Include="MNG_Chunk.cpp">
+      <Filter>Picture\MNG</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileHook.h">
+      <Filter>Pack\FileHook</Filter>
+    </ClInclude>
+    <ClInclude Include="MNG.h">
+      <Filter>Picture\MNG</Filter>
+    </ClInclude>
+    <ClInclude Include="MNG_Struct.h">
+      <Filter>Picture\MNG</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Script\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="NEKOPACK_V1.h">
+      <Filter>Pack\NEKOPACK_V1</Filter>
+    </ClInclude>
+    <ClInclude Include="NEKOPACK_V1_Struct.h">
+      <Filter>Pack\NEKOPACK_V1</Filter>
+    </ClInclude>
+    <ClInclude Include="MNG_Chunk.h">
+      <Filter>Picture\MNG</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

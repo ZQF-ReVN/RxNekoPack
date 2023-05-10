@@ -4,7 +4,7 @@
 
 namespace NekoPackTools
 {
-	namespace Text
+	namespace Script
 	{
 		struct Script_Line
 		{
@@ -18,7 +18,7 @@ namespace NekoPackTools
 			std::wstring wsTraText;  //Translated Text
 		};
 
-		class Editor
+		class Text
 		{
 		private:
 			std::size_t m_uReadCodePage;
@@ -27,7 +27,7 @@ namespace NekoPackTools
 			std::vector<Script_Line> m_vecScript;
 
 		public:
-			Editor() : m_uReadCodePage(932), m_uInsetCodePage(932) { }
+			Text() : m_uReadCodePage(932), m_uInsetCodePage(932) { }
 
 			bool Extract(const  std::wstring& wsScript);
 			bool Insert(const std::wstring& wsScript);

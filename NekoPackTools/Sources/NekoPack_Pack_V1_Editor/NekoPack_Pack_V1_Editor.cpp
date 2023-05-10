@@ -1,11 +1,10 @@
 #include <iostream>
 
-#include "../../Modules/NekoPackTools/Pack_V1.h"
+#include "../../Modules/NekoPackTools/NEKOPACK_V1.h"
 
 
 int main()
 {
-	NekoPackTools::Pack_V1::Pack_Editor editor("script.dat");
-	editor.Init();
+	NekoPackTools::Pack::NEKOPACK_V1 editor("system.dat");
 	editor.Extract();
 }

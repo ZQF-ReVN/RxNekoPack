@@ -1,15 +1,15 @@
-#include "Pack_V1.h"
-#include "../../ThirdParty/TDA/AutoBuffer.h"
-#include "../../ThirdParty/TDA/FileX.h"
+﻿#include "NEKOPACK_V1.h"
+#include "../../ThirdParty/Rut/MemX.h"
+#include "../../ThirdParty/Rut/FileX.h"
 
 #include <fstream>
 #include <direct.h>
 
 namespace NekoPackTools
 {
-	namespace Pack_V1
+	namespace Pack
 	{
-		bool Pack_Editor::Init()
+		bool NEKOPACK_V1::LoadIndex()
 		{
 			std::ifstream ifs_Pack(m_msPack, std::ios::binary);
 			if (!ifs_Pack.is_open()) return false;
@@ -38,8 +38,10 @@ namespace NekoPackTools
 			return true;
 		}
 
-		bool Pack_Editor::Extract()
+		bool NEKOPACK_V1::Extract()
 		{
+			if (!LoadIndex()) { return false; }
+
 			std::ifstream ifs_Pack(m_msPack, std::ios::binary);
 			if (!ifs_Pack.is_open()) return false;
 
@@ -47,8 +49,8 @@ namespace NekoPackTools
 
 			uint32_t aTable[625] = { 0 };
 
-			TDA::AutoBuffer buffer;
-			for (auto& entry : m_vecIndex)
+			Rut::MemX::AutoMem buffer;
+			for (const auto& entry : m_vecIndex)
 			{
 				uint8_t* pBuffer = buffer.ReSize(entry.uiResSize);
 
@@ -61,11 +63,18 @@ namespace NekoPackTools
 					DeocdeBuffer(aTable, pBuffer, entry.uiResSize);
 				}
 
-				TDA::FileX::SaveFileViaPath((folder + (char*)entry.aResName).c_str(), pBuffer, entry.uiResSize);
+				Rut::FileX::SaveFileViaPath((folder + (char*)entry.aResName).c_str(), pBuffer, entry.uiResSize);
 			}
+
+			return true;
 		}
 
-		void Pack_Editor::MakeTable(uint32_t* pBuffer, int32_t nMagic)
+		bool NEKOPACK_V1::Create()
+		{
+			return false;
+		}
+
+		void NEKOPACK_V1::MakeTable(uint32_t* pBuffer, int32_t nMagic)
 		{
 			uint32_t* buffer = pBuffer;
 
@@ -78,7 +87,7 @@ namespace NekoPackTools
 			pBuffer[624] = 0;
 		}
 
-		void Pack_Editor::DeocdeByte(uint32_t* pTable, uint8_t* pByte)
+		void NEKOPACK_V1::DeocdeByte(uint32_t* pTable, uint8_t* pByte)
 		{
 			if (pTable[624] >= 624) { MakeTable(pTable, pTable[623]); }
 
@@ -93,7 +102,7 @@ namespace NekoPackTools
 			*pByte = *pByte ^ (v3 >> 18) ^ v3;
 		}
 
-		void Pack_Editor::DeocdeBuffer(uint32_t* pTable, uint8_t* pBuffer, uint32_t uiBufferSize)
+		void NEKOPACK_V1::DeocdeBuffer(uint32_t* pTable, uint8_t* pBuffer, uint32_t uiBufferSize)
 		{
 			for (size_t iteBuffer = 0; iteBuffer < uiBufferSize; iteBuffer++)
 			{
@@ -101,7 +110,7 @@ namespace NekoPackTools
 			}
 		}
 
-		void Pack_Editor::EncodeBuffer(uint32_t* pTable, uint8_t* pBuffer, uint32_t uiBufferSize)
+		void NEKOPACK_V1::EncodeBuffer(uint32_t* pTable, uint8_t* pBuffer, uint32_t uiBufferSize)
 		{
 			DeocdeBuffer(pTable, pBuffer, uiBufferSize);
 		}

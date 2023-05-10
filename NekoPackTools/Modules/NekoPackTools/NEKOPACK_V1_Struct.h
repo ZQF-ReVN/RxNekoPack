@@ -3,7 +3,7 @@
 
 namespace NekoPackTools
 {
-	namespace Pack_V1
+	namespace Pack
 	{
 		struct NEKOPACK_V1_Header
 		{
@@ -21,5 +21,10 @@ namespace NekoPackTools
 			uint32_t uiResOffset;  //Pack FOA
 			uint32_t uiResSize;
 		};
+
+		/*
+		* 2004-06-25 Lass  3days¡«œº¤Á¤Æ¤æ¤¯¿Ì¤Î±Ë·½¤Ç¡«
+		* 2005-09-16 Navel Tick! Tack!
+		*/
 	}
 }

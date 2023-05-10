@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6025b745-02f7-47ea-9911-35649da8cea0}</ProjectGuid>
-    <RootNamespace>TDA</RootNamespace>
+    <ProjectGuid>{7c5b9b9c-26cc-4f87-a419-843da8ddf104}</ProjectGuid>
+    <RootNamespace>Rcf</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,22 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AutoBuffer.h" />
-    <ClInclude Include="ConsoleX.h" />
-    <ClInclude Include="EnumFiles.h" />
-    <ClInclude Include="FileX.h" />
-    <ClInclude Include="DetoursX.h" />
-    <ClInclude Include="MemX.h" />
-    <ClInclude Include="StringX.h" />
+    <ClCompile Include="..\TXT.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AutoBuffer.cpp" />
-    <ClCompile Include="ConsoleX.cpp" />
-    <ClCompile Include="EnumFiles.cpp" />
-    <ClCompile Include="FileX.cpp" />
-    <ClCompile Include="DetoursX.cpp" />
-    <ClCompile Include="MemX.cpp" />
-    <ClCompile Include="StringX.cpp" />
+    <ClInclude Include="..\INI.hpp" />
+    <ClInclude Include="..\TXT.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

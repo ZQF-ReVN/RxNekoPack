@@ -1,16 +1,18 @@
-#include "Text.h"
-#include "../../ThirdParty/TDA/StringX.h"
-#include "../../ThirdParty/TDA/ConsoleX.h"
+﻿#include "Text.h"
+#include "../../ThirdParty/Rut/StringX.h"
+#include "../../ThirdParty/Rut/ConsoleX.h"
 
 #include <fstream>
 #include <iomanip>
 
+using namespace Rut::StringX;
+using namespace Rut::ConsoleX;
 
 namespace NekoPackTools
 {
-	namespace Text
+	namespace Script
 	{
-		bool Editor::Extract(const std::wstring& wsScript)
+		bool Text::Extract(const std::wstring& wsScript)
 		{
 			ReadScript(wsScript, m_uReadCodePage);
 			FilterCode();
@@ -19,7 +21,7 @@ namespace NekoPackTools
 			return true;
 		}
 
-		bool Editor::Insert(const std::wstring& wsScript)
+		bool Text::Insert(const std::wstring& wsScript)
 		{
 			ReadScript(wsScript, m_uReadCodePage);
 			ReadText(wsScript + L".txt");
@@ -29,20 +31,20 @@ namespace NekoPackTools
 			return true;
 		}
 
-		void Editor::SetCodePage(std::size_t uReadCodePage, std::size_t uInsetCodePage)
+		void Text::SetCodePage(std::size_t uReadCodePage, std::size_t uInsetCodePage)
 		{
 			m_uReadCodePage = uReadCodePage;
 			m_uInsetCodePage = uInsetCodePage;
 		}
 
-		bool Editor::WriteScript(const std::wstring& wsScript)
+		bool Text::WriteScript(const std::wstring& wsScript)
 		{
 			std::ofstream ofs_Script(wsScript, std::ios::binary);
 			if (!ofs_Script.is_open()) { return false; }
 
 			for (auto& line : m_vecScript)
 			{
-				ofs_Script << TDA::StringX::WStrToStr(line.wsScript, line.uEncoding) << '\n';
+				ofs_Script << WStrToStr(line.wsScript, line.uEncoding) << '\n';
 			}
 
 			ofs_Script.flush();
@@ -50,7 +52,7 @@ namespace NekoPackTools
 			return true;
 		}
 
-		bool Editor::ReadScript(const std::wstring& wsScript, const size_t uCodePage)
+		bool Text::ReadScript(const std::wstring& wsScript, const size_t uCodePage)
 		{
 			m_vecScript.clear();
 
@@ -59,17 +61,17 @@ namespace NekoPackTools
 
 			for (std::string line; getline(ifs_Script, line);)
 			{
-				m_vecScript.emplace_back(Script_Line{ uCodePage, TDA::StringX::StrToWStr(line, uCodePage) });
+				m_vecScript.emplace_back(Script_Line{ uCodePage, StrToWStr(line, uCodePage) });
 			}
 
 			return false;
 		}
 
-		bool Editor::ReadText(const std::wstring& wsText)
+		bool Text::ReadText(const std::wstring& wsText)
 		{
 			m_vecText.clear();
 
-			std::wifstream ifs_Text(wsText); ifs_Text.imbue(TDA::StringX::GetCVT_UTF8());
+			std::wifstream ifs_Text(wsText); ifs_Text.imbue(GetCVT_UTF8());
 			if (!ifs_Text.is_open()) { return false; }
 
 			Text_Line text_line = { 0 };
@@ -92,9 +94,9 @@ namespace NekoPackTools
 			return true;
 		}
 
-		bool Editor::WriteText(const std::wstring& wsText)
+		bool Text::WriteText(const std::wstring& wsText)
 		{
-			std::wofstream ofs_Text(wsText); ofs_Text.imbue(TDA::StringX::GetCVT_UTF8());
+			std::wofstream ofs_Text(wsText); ofs_Text.imbue(GetCVT_UTF8());
 			if (!ofs_Text.is_open()) { return false; }
 
 			for (auto& line : m_vecText)
@@ -114,7 +116,7 @@ namespace NekoPackTools
 			return true;
 		}
 
-		bool Editor::InsertText(std::size_t uCodePage)
+		bool Text::InsertText(std::size_t uCodePage)
 		{
 			for (auto& line : m_vecText)
 			{
@@ -142,7 +144,7 @@ namespace NekoPackTools
 			return true;
 		}
 
-		bool Editor::FilterCode()
+		bool Text::FilterCode()
 		{
 			std::size_t number = 0;
 			Text_Line text_line = { 0 };
@@ -181,11 +183,11 @@ namespace NekoPackTools
 			return true;
 		}
 
-		std::wstring Editor::RepCharaName(const std::wstring& wsLine, const std::wstring& wsName)
+		std::wstring Text::RepCharaName(const std::wstring& wsLine, const std::wstring& wsName)
 		{
 			if (wsLine[0] != L':')
 			{
-				TDA::ConsoleX::PutConsoleW(L"Not Match Character Name:%s\n", wsLine);
+				PutConsoleW(L"Not Match Character Name:%s\n", wsLine);
 				return wsLine;
 			}
 
@@ -195,11 +197,11 @@ namespace NekoPackTools
 			return newLine;
 		}
 
-		std::wstring Editor::GetCharaName(const std::wstring& wsLine)
+		std::wstring Text::GetCharaName(const std::wstring& wsLine)
 		{
 			if (wsLine[0] != L':')
 			{
-				TDA::ConsoleX::PutConsoleW(L"Not Match Character Name:%s\n", wsLine);
+				PutConsoleW(L"Not Match Character Name:%s\n", wsLine);
 				return wsLine;
 			}
 

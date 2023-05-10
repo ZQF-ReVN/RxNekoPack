@@ -1,4 +1,4 @@
-#include <Windows.h>
+﻿#include <Windows.h>
 
 #include "../../Modules/NekoPackTools/FileHook.h"
 
@@ -8,17 +8,29 @@ static DWORD g_dwExeBase = (DWORD)GetModuleHandleW(NULL);
 
 VOID StartHook()
 {
-	//��Ů�ޥ��Υ�ƥ�-ο��ΐ�- patch 101
-	NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0x7CE4C);
-	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0x7AA60);
+	//ノストラダムスに聞いてみろ♪
+	//NekoPackTools::Pack::SetFileHook(g_dwExeBase + 0x348C8);
+	//NekoPackTools::Pack::SetFileDump(g_dwExeBase + 0x33D6C);
 
-	//��Ů�����ƥ��ӥƥ� patch 102
-	//NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3684);
-	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF13E8);
+	//Stellar☆Theater patch 102
+    //NekoPackTools::Pack::SetFileHook(g_dwExeBase + 0xA8388);
+    //NekoPackTools::Pack::SetFileDump(g_dwExeBase + 0xA78A4);
 
-	//���饳��
-	//NekoPackTools::FileHook::SetFileHook(g_dwExeBase + 0xF3BA8);
-	//NekoPackTools::FileHook::SetFileDump(g_dwExeBase + 0xF190C);
+	//Stellar☆Theater encore
+    //NekoPackTools::Pack::SetFileHook(g_dwExeBase + 0x211108);
+    //NekoPackTools::Pack::SetFileDump(g_dwExeBase + 0x20F6AC);
+
+	//少女マイノリティ-慰めの愛- patch 101
+	//NekoPackTools::Pack::SetFileHook(g_dwExeBase + 0x7CE4C);
+	//NekoPackTools::Pack::SetFileDump(g_dwExeBase + 0x7AA60);
+
+	//少女アクティビティ patch 102
+	//NekoPackTools::Pack::SetFileHook(g_dwExeBase + 0xF3684);
+	//NekoPackTools::Pack::SetFileDump(g_dwExeBase + 0xF13E8);
+
+	//ソラコイ
+	NekoPackTools::Pack::SetFileHook(g_dwExeBase + 0xF3BA8);
+	//NekoPackTools::Pack::SetFileDump(g_dwExeBase + 0xF190C);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)

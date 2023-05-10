@@ -127,7 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Pack_V1.cpp" />
+    <ClCompile Include="MNG_Chunk.cpp" />
+    <ClCompile Include="NEKOPACK_V1.cpp" />
     <ClCompile Include="FileHook.cpp" />
     <ClCompile Include="MNG.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -135,14 +136,15 @@
   <ItemGroup>
     <ClInclude Include="FileHook.h" />
     <ClInclude Include="MNG.h" />
+    <ClInclude Include="MNG_Chunk.h" />
     <ClInclude Include="MNG_Struct.h" />
-    <ClInclude Include="Pack_V1.h" />
-    <ClInclude Include="Pack_V1_Struct.h" />
+    <ClInclude Include="NEKOPACK_V1.h" />
+    <ClInclude Include="NEKOPACK_V1_Struct.h" />
     <ClInclude Include="Text.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ThirdParty\TDA\TDA.vcxproj">
-      <Project>{6025b745-02f7-47ea-9911-35649da8cea0}</Project>
+    <ProjectReference Include="..\..\ThirdParty\Rut\vcproject\Rut.vcxproj">
+      <Project>{05eda7c5-ed66-4b69-b8fa-eb612d4a8291}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
