@@ -9,53 +9,77 @@ namespace Rut
 {
 	namespace FileX
 	{
-		bool SaveFileViaPath(const wchar_t* pPath, void* pBuffer, size_t nSize)
+		void SaveFileViaPath(const wchar_t* pwPath, void* pData, size_t nBytes)
 		{
-			std::wstring path = GetCurrentDirectoryFolder_RETW() + pPath;
+			std::wstring path = GetCurrentDirectoryFolder_RETW() + pwPath;
 
 			SHCreateDirectoryExW(NULL, PathRemoveFileName_RET(path).c_str(), NULL);
 
-			HANDLE hFile = CreateFileW(pPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (hFile == INVALID_HANDLE_VALUE) return false;
+			HANDLE hFile = CreateFileW(pwPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			if (hFile == INVALID_HANDLE_VALUE) { throw std::runtime_error("SaveFileViaPath: Create File Error!"); }
 
-			bool isWritten = WriteFile(hFile, pBuffer, nSize, NULL, NULL);
+			WriteFile(hFile, pData, nBytes, NULL, NULL);
 			FlushFileBuffers(hFile);
 			CloseHandle(hFile);
-
-			return isWritten;
 		}
 
-		bool SaveFileViaPath(const char* pPath, void* pBuffer, size_t nSize)
+		void SaveFileViaPath(const char* pcPath, void* pData, size_t nBytes)
 		{
 			std::wstring wsPath;
-			std::string msPath = pPath;
+			std::string msPath = pcPath;
 			StringX::StrToWStr(msPath, wsPath, CP_ACP);
+			SaveFileViaPath(wsPath.c_str(), pData, nBytes);
+		}
 
-			return SaveFileViaPath(wsPath.c_str(), pBuffer, nSize);
+		void SaveFileViaPath(const std::wstring& wsPath, void* pData, size_t nBytes)
+		{
+			SaveFileViaPath(wsPath.c_str(), pData, nBytes);
+		}
+
+		void SaveFileViaPath(const std::string& msPath, void* pData, size_t nBytes)
+		{
+			SaveFileViaPath(msPath.c_str(), pData, nBytes);
+		}
+
+
+		std::string GetFileNameViaBaseA(uint32_t uiBase)
+		{
+			std::string name_ms;
+			std::wstring name_ws = GetFileNameViaBaseW(uiBase);
+			StringX::WStrToStr(name_ws, name_ms, CP_ACP);
+			return name_ms;
+		}
+
+		std::wstring GetFileNameViaBaseW(uint32_t uiBase)
+		{
+			std::wstring name;
+			name.resize(MAX_PATH);
+			GetModuleFileNameW((HMODULE)uiBase, (wchar_t*)name.data(), MAX_PATH);
+			name.resize(PathGetFileName((wchar_t*)name.data()));
+			return name;
 		}
 
 
 		size_t GetCurrentDirectoryFolder(char* pPath)
 		{
-			size_t sz = GetCurrentDirectoryA(MAX_PATH, pPath);
-			memcpy(pPath + sz, "\\", 1);
-			return ++sz;
+			size_t size = GetCurrentDirectoryA(MAX_PATH, pPath);
+			memcpy(pPath + size, "\\", 1);
+			return ++size;
 		}
 
 		size_t GetCurrentDirectoryFolder(wchar_t* pPath)
 		{
-			size_t sz = GetCurrentDirectoryW(MAX_PATH, pPath);
-			memcpy(pPath + sz, L"\\", 2);
-			return ++sz;
+			size_t size = GetCurrentDirectoryW(MAX_PATH, pPath);
+			memcpy(pPath + size, L"\\", 2);
+			return ++size;
 		}
 
 		size_t GetCurrentDirectoryFolder(std::string& msPath)
 		{
-			size_t len = 0;
-			msPath.resize(MAX_PATH);
-			len = GetCurrentDirectoryFolder(const_cast<char*>(msPath.data()));
-			msPath.resize(len);
-			return len;
+			std::wstring path_ws;
+			size_t size = GetCurrentDirectoryFolder(path_ws);
+			StringX::WStrToStr(path_ws, msPath, CP_ACP);
+			return size;
 		}
 
 		size_t GetCurrentDirectoryFolder(std::wstring& wsPath)
@@ -69,9 +93,10 @@ namespace Rut
 
 		std::string GetCurrentDirectoryFolder_RETA()
 		{
-			std::string path;
-			GetCurrentDirectoryFolder(path);
-			return path;
+			std::string path_ms; std::wstring path_ws;
+			GetCurrentDirectoryFolder(path_ws);
+			StringX::WStrToStr(path_ws, path_ms, CP_ACP);
+			return path_ms;
 		}
 
 		std::wstring GetCurrentDirectoryFolder_RETW()
@@ -146,7 +171,7 @@ namespace Rut
 		bool PathRemoveFileName(std::string& msPath, std::string& msRemoved)
 		{
 			size_t pos = msPath.rfind("\\");
-			if (pos == std::wstring::npos) return false;
+			if (pos == std::wstring::npos) { return false; }
 			msRemoved = msPath.substr(0, pos + 1);
 			return true;
 		}
@@ -154,23 +179,31 @@ namespace Rut
 		bool PathRemoveFileName(std::wstring& wsPath, std::wstring& wsRemoved)
 		{
 			size_t pos = wsPath.rfind(L"\\");
-			if (pos == std::wstring::npos) return false;
+			if (pos == std::wstring::npos) { return false; }
 			wsRemoved = wsPath.substr(0, pos + 1);
 			return true;
 		}
 
 		std::string PathRemoveFileName_RET(std::string& msPath)
 		{
-			std::string folder;
-			PathRemoveFileName(msPath, folder);
-			return folder;
+			std::string removed;
+			PathRemoveFileName(msPath, removed);
+			return removed;
 		}
 
 		std::wstring PathRemoveFileName_RET(std::wstring& wsPath)
 		{
-			std::wstring folder;
-			PathRemoveFileName(wsPath, folder);
-			return folder;
+			std::wstring removed;
+			PathRemoveFileName(wsPath, removed);
+			return removed;
+		}
+
+
+		std::wstring PathRemoveExtension(const std::wstring& wsPath)
+		{
+			std::size_t pos = wsPath.rfind(L".");
+			if (pos == std::wstring::npos) { throw std::runtime_error("PathRemoveExtension: Not Find Extension!"); }
+			return wsPath.substr(0, pos);
 		}
 
 

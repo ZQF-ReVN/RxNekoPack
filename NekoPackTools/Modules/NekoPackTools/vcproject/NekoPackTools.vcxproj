@@ -127,23 +127,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MNG_Chunk.cpp" />
-    <ClCompile Include="NEKOPACK_V1.cpp" />
-    <ClCompile Include="FileHook.cpp" />
-    <ClCompile Include="MNG.cpp" />
-    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="..\FileHook.cpp" />
+    <ClCompile Include="..\MNG.cpp" />
+    <ClCompile Include="..\MNG_Chunk.cpp" />
+    <ClCompile Include="..\NEKOPACK_V1.cpp" />
+    <ClCompile Include="..\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileHook.h" />
-    <ClInclude Include="MNG.h" />
-    <ClInclude Include="MNG_Chunk.h" />
-    <ClInclude Include="MNG_Struct.h" />
-    <ClInclude Include="NEKOPACK_V1.h" />
-    <ClInclude Include="NEKOPACK_V1_Struct.h" />
-    <ClInclude Include="Text.h" />
+    <ClInclude Include="..\FileHook.h" />
+    <ClInclude Include="..\MNG.h" />
+    <ClInclude Include="..\MNG_Chunk.h" />
+    <ClInclude Include="..\MNG_Struct.h" />
+    <ClInclude Include="..\NEKOPACK_V1.h" />
+    <ClInclude Include="..\NEKOPACK_V1_Struct.h" />
+    <ClInclude Include="..\Text.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ThirdParty\Rut\vcproject\Rut.vcxproj">
+    <ProjectReference Include="..\..\..\ThirdParty\Rut\vcproject\Rut.vcxproj">
       <Project>{05eda7c5-ed66-4b69-b8fa-eb612d4a8291}</Project>
     </ProjectReference>
   </ItemGroup>

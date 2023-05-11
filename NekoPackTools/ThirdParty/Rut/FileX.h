@@ -10,8 +10,13 @@ namespace Rut
 {
 	namespace FileX
 	{
-		bool         SaveFileViaPath(const char* pPath, void* pBuffer, size_t nSize);
-		bool         SaveFileViaPath(const wchar_t* pPath, void* pBuffer, size_t nSize);
+		void         SaveFileViaPath(const char* pwPath, void* pData, size_t nBytes);
+		void         SaveFileViaPath(const wchar_t* pcPath, void* pData, size_t nBytes);
+		void         SaveFileViaPath(const std::wstring& wsPath, void* pData, size_t nBytes);
+		void         SaveFileViaPath(const std::string& msPath, void* pData, size_t nBytes);
+
+		std::string  GetFileNameViaBaseA(uint32_t uiBase);
+		std::wstring GetFileNameViaBaseW(uint32_t uiBase);
 
 		size_t       GetCurrentDirectoryFolder(char* pPath);
 		size_t       GetCurrentDirectoryFolder(wchar_t* pPath);
@@ -33,6 +38,9 @@ namespace Rut
 		bool         PathRemoveFileName(std::wstring& wsPath, std::wstring& wsRemoved);
 		std::string  PathRemoveFileName_RET(std::string& msPath);
 		std::wstring PathRemoveFileName_RET(std::wstring& wsPath);
+
+
+		std::wstring PathRemoveExtension(const std::wstring& wsPath);
 
 
 		size_t       PathGetFileName(wchar_t* pPath);

@@ -5,19 +5,22 @@
 #include <fstream>
 #include <direct.h>
 
+using namespace Rut::MemX;
+using namespace Rut::FileX;
+
+
 namespace NekoPackTools
 {
 	namespace Pack
 	{
-		bool NEKOPACK_V1::LoadIndex()
+		void NEKOPACK_V1::LoadIndex()
 		{
-			std::ifstream ifs_Pack(m_msPack, std::ios::binary);
-			if (!ifs_Pack.is_open()) return false;
+			std::ifstream ifs_Pack = OpenFileBinaryStream(m_msPack);
 
 			ifs_Pack.read((char*)&m_Header, sizeof(m_Header));
 
-			uint32_t aTable[625] = { 0 };
-			MakeTable(aTable, 0x9999);
+			uint32_t table[625] = { 0 };
+			MakeTable(table, 0x9999);
 
 			NEKOPACK_V1_Entry entry = { 0 };
 			for (size_t iteRes = 0; iteRes < m_Header.uiResCount; iteRes++)
@@ -28,45 +31,36 @@ namespace NekoPackTools
 				ifs_Pack.read((char*)&entry.uiResOffset, 4);
 				ifs_Pack.read((char*)&entry.uiResSize, 4);
 
-				DeocdeBuffer(aTable, entry.aResName, entry.ucResNameLen);
-
+				DeocdeBuffer(table, entry.aResName, entry.ucResNameLen);
 				m_vecIndex.emplace_back(entry);
-
 				memset(&entry, 0, sizeof(entry));
 			}
-
-			return true;
 		}
 
-		bool NEKOPACK_V1::Extract()
+		void NEKOPACK_V1::Extract()
 		{
-			if (!LoadIndex()) { return false; }
+			LoadIndex();
 
-			std::ifstream ifs_Pack(m_msPack, std::ios::binary);
-			if (!ifs_Pack.is_open()) return false;
-
+			std::ifstream ifs_Pack = OpenFileBinaryStream(m_msPack);
 			std::string folder = m_msPack.substr(0, m_msPack.size() - 4) + "\\";
 
-			uint32_t aTable[625] = { 0 };
-
-			Rut::MemX::AutoMem buffer;
+			AutoMem buffer;
+			uint32_t table[625] = { 0 };
 			for (const auto& entry : m_vecIndex)
 			{
-				uint8_t* pBuffer = buffer.ReSize(entry.uiResSize);
+				uint8_t* buffer_ptr = buffer.ReSize(entry.uiResSize);
 
 				ifs_Pack.seekg(entry.uiResOffset, std::ios::beg);
-				ifs_Pack.read((char*)pBuffer, entry.uiResSize);
+				ifs_Pack.read((char*)buffer_ptr, entry.uiResSize);
 
 				if (entry.ucKey)
 				{
-					MakeTable(aTable, 0x9999 + entry.ucKey);
-					DeocdeBuffer(aTable, pBuffer, entry.uiResSize);
+					MakeTable(table, 0x9999 + entry.ucKey);
+					DeocdeBuffer(table, buffer_ptr, entry.uiResSize);
 				}
 
-				Rut::FileX::SaveFileViaPath((folder + (char*)entry.aResName).c_str(), pBuffer, entry.uiResSize);
+				SaveFileViaPath((folder + (char*)entry.aResName).c_str(), buffer_ptr, entry.uiResSize);
 			}
-
-			return true;
 		}
 
 		bool NEKOPACK_V1::Create()

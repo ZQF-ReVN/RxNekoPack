@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include <map>
 #include <string>
-#include <fstream>
 #include <sstream>
+#include <fstream>
 #include <codecvt>
+#include <unordered_map>
 
 
 //Ria's Configuration File Library X 
@@ -23,6 +23,50 @@ namespace Rcf
 			return cvtUTF8;
 		}
 
+		template <typename T_CHAR>
+		void HexToStr(T_CHAR* pStr, const uint8_t* pHex, const size_t nBytes)
+		{
+			for (size_t ite = 0; ite < nBytes; ite++)
+			{
+				T_CHAR& ph = pStr[ite * 2 + 0];
+				T_CHAR& pl = pStr[ite * 2 + 1];
+
+				ph = (pHex[ite] >> 4) + 0x30;
+				pl = (pHex[ite] & 0xF) + 0x30;
+
+				if (ph > 0x39) { ph += 0x7; }
+				if (pl > 0x39) { pl += 0x7; }
+			}
+		}
+
+		template <typename T_CHAR>
+		void StrToHex(T_CHAR* pStr, uint8_t* pHex, const size_t nChars)
+		{
+			for (size_t ite = 0; ite < (nChars / 2); ite++)
+			{
+				uint8_t h = (uint8_t)pStr[ite * 2 + 0] - 0x30;
+				uint8_t l = (uint8_t)pStr[ite * 2 + 1] - 0x30;
+
+				if (h > 0x9) { h -= 0x7; }
+				if (l > 0x9) { l -= 0x7; }
+
+				pHex[ite] = (h << 4) | (l);
+			}
+		}
+
+		void HexToWString(std::wstring& wsHex, uint8_t* pHex, size_t nBytes)
+		{
+			wsHex.resize(nBytes * 2);
+			HexToStr((wchar_t*)wsHex.data(), pHex, nBytes);
+		}
+
+		void WStringToHex(std::wstring& wsHex, uint8_t* pHex, size_t nBytes)
+		{
+			if (nBytes < (wsHex.size() / 2)) { throw std::runtime_error("StringToHex: Buffer Too Small"); }
+			StrToHex((wchar_t*)wsHex.data(), pHex, wsHex.size());
+		}
+
+
 		class Value
 		{
 		private:
@@ -38,9 +82,10 @@ namespace Rcf
 			Value(const std::wstring& wsValue) { m_wsValue = wsValue; }
 
 			operator const bool() { return _wcsicmp(m_wsValue.c_str(), L"True") == 0; }
-			operator const int() { return std::stoi(m_wsValue); }
+			operator const int() { return std::stoi(m_wsValue, nullptr, 0); }
 			operator const double() { return std::stod(m_wsValue); }
 			operator const wchar_t* const () { return m_wsValue.c_str(); }
+			operator const uint32_t() { return std::stoi(m_wsValue, nullptr, 16); }
 			operator const std::wstring() const { return m_wsValue; }
 			operator std::wstring& () { return m_wsValue; }
 
@@ -52,8 +97,8 @@ namespace Rcf
 		private:
 			typedef std::wstring                 Name;
 			typedef std::wstring                 NodeName;
-			typedef std::map<Name, Value>        KeysMap;
-			typedef std::map<NodeName, KeysMap>  NodesMap;
+			typedef std::unordered_map<Name, Value>        KeysMap;
+			typedef std::unordered_map<NodeName, KeysMap>  NodesMap;
 
 			NodesMap m_mpNodes;
 
@@ -69,7 +114,7 @@ namespace Rcf
 			inline std::wstring GetNodeName(const std::wstring& wsNode)
 			{
 				size_t pos = wsNode.find_first_of(L']');
-				if (pos == std::wstring::npos) { throw std::runtime_error("GetSectionName Error!"); }
+				if (pos == std::wstring::npos) { throw std::runtime_error("INI_File::GetSectionName: Error!"); }
 				return wsNode.substr(1, pos - 1);
 			}
 
@@ -85,12 +130,13 @@ namespace Rcf
 
 		public:
 			INI_File() { }
+			INI_File(const std::wstring& wsINI) { Parse(wsINI); }
 
-			bool Parse(const std::wstring& wsFile)
+			void Parse(const std::wstring& wsFile)
 			{
 				std::wifstream wifs_ini(wsFile);
 				wifs_ini.imbue(GetCVT_UTF8());
-				if (wifs_ini.fail()) { throw std::runtime_error("Open File Error!"); }
+				if (wifs_ini.fail()) { throw std::runtime_error("INI_File::Parse: Open INI File Error!"); }
 
 				std::wstring node_name;
 				for (std::wstring line; getline(wifs_ini, line);)
@@ -106,7 +152,7 @@ namespace Rcf
 					default:
 					{
 						size_t pos = line.find_first_of(L'=');
-						if ((pos == std::wstring::npos) || (pos == 0)) { throw std::runtime_error("Node Init Error!"); }
+						if ((pos == std::wstring::npos) || (pos == 0)) { throw std::runtime_error("INI_File::Parse: Node Init Error!"); }
 
 						const std::wstring name = Trim(line.substr(0, pos));
 						const std::wstring valu = Trim(line.substr(pos + 1));
@@ -116,8 +162,6 @@ namespace Rcf
 					break;
 					}
 				}
-
-				return true;
 			}
 
 			std::wstring Dump()
@@ -160,7 +204,7 @@ namespace Rcf
 			inline KeysMap& Get(const std::wstring& wsNode)
 			{
 				const auto& ite_node = At(wsNode);
-				if (ite_node == End()) { throw std::runtime_error("No Find Node"); }
+				if (ite_node == End()) { throw std::runtime_error("INI_File::Get: No Find Node"); }
 				return ite_node->second;
 			}
 
@@ -168,7 +212,7 @@ namespace Rcf
 			{
 				auto& keys = Get(wsNode);
 				const auto& ite_keys = keys.find(wsName);
-				if (ite_keys == keys.end()) { throw std::runtime_error("No Find Key"); }
+				if (ite_keys == keys.end()) { throw std::runtime_error("INI_File::Get: No Find Key"); }
 				return ite_keys->second;
 			}
 

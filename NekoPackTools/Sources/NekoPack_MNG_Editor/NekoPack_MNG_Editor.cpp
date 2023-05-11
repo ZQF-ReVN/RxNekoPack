@@ -58,7 +58,7 @@ int wmain(int argc, wchar_t* argv[])
 		case 2: { extract(file); } break;
 		case 3: { create(file); } break;
 		case 4: { if (parser(file)) { break; } }
-		default: { std::cerr << "Too many parameters" << std::endl; }
+		default: { std::cerr << "parameters error!" << std::endl; }
 		}
 	}
 	catch (const std::runtime_error& err)

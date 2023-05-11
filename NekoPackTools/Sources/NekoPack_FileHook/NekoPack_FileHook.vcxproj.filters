@@ -3,4 +3,7 @@
   <ItemGroup>
     <ClCompile Include="NekoPack_FileHook.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="NekoPack_FileHook.ini" />
+  </ItemGroup>
 </Project>

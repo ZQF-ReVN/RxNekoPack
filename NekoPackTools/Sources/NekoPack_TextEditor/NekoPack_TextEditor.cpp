@@ -5,10 +5,6 @@
 
 int wmain(int argc, wchar_t* argv[])
 {
-	NekoPackTools::Script::Text editor;
-	editor.SetCodePage(932, 936);
-	editor.Insert(L"pm3k1.txt");
-
 	if (argc == 1)
 	{
 		std::cout

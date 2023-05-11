@@ -24,43 +24,43 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileHook.cpp">
-      <Filter>Pack\FileHook</Filter>
-    </ClCompile>
-    <ClCompile Include="MNG.cpp">
-      <Filter>Picture\MNG</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Script\Text</Filter>
-    </ClCompile>
-    <ClCompile Include="NEKOPACK_V1.cpp">
+    <ClCompile Include="..\NEKOPACK_V1.cpp">
       <Filter>Pack\NEKOPACK_V1</Filter>
     </ClCompile>
-    <ClCompile Include="MNG_Chunk.cpp">
+    <ClCompile Include="..\FileHook.cpp">
+      <Filter>Pack\FileHook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MNG.cpp">
       <Filter>Picture\MNG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MNG_Chunk.cpp">
+      <Filter>Picture\MNG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Text.cpp">
+      <Filter>Script\Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileHook.h">
+    <ClInclude Include="..\NEKOPACK_V1.h">
+      <Filter>Pack\NEKOPACK_V1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NEKOPACK_V1_Struct.h">
+      <Filter>Pack\NEKOPACK_V1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FileHook.h">
       <Filter>Pack\FileHook</Filter>
     </ClInclude>
-    <ClInclude Include="MNG.h">
+    <ClInclude Include="..\MNG.h">
       <Filter>Picture\MNG</Filter>
     </ClInclude>
-    <ClInclude Include="MNG_Struct.h">
+    <ClInclude Include="..\MNG_Chunk.h">
       <Filter>Picture\MNG</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
+    <ClInclude Include="..\MNG_Struct.h">
+      <Filter>Picture\MNG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Text.h">
       <Filter>Script\Text</Filter>
-    </ClInclude>
-    <ClInclude Include="NEKOPACK_V1.h">
-      <Filter>Pack\NEKOPACK_V1</Filter>
-    </ClInclude>
-    <ClInclude Include="NEKOPACK_V1_Struct.h">
-      <Filter>Pack\NEKOPACK_V1</Filter>
-    </ClInclude>
-    <ClInclude Include="MNG_Chunk.h">
-      <Filter>Picture\MNG</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
