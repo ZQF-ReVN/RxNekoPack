@@ -25,6 +25,9 @@
     <Filter Include="Pack\NEKOPACK_V2">
       <UniqueIdentifier>{3c1fc292-cf0a-4835-ad9f-a46b88862028}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pack\NEKOAPCK_V1_5">
+      <UniqueIdentifier>{f88b8d30-5f77-4377-9479-dc7651a28b12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NEKOPACK_V1.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="..\NEKOPACK_V2.cpp">
       <Filter>Pack\NEKOPACK_V2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NEKOPACK_V1_5.cpp">
+      <Filter>Pack\NEKOAPCK_V1_5</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="..\NEKOPACK_V2.h">
       <Filter>Pack\NEKOPACK_V2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NEKOPACK_V1_5.h">
+      <Filter>Pack\NEKOAPCK_V1_5</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

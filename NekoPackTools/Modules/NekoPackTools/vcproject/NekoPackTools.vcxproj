@@ -131,6 +131,7 @@
     <ClCompile Include="..\MNG.cpp" />
     <ClCompile Include="..\MNG_Chunk.cpp" />
     <ClCompile Include="..\NEKOPACK_V1.cpp" />
+    <ClCompile Include="..\NEKOPACK_V1_5.cpp" />
     <ClCompile Include="..\NEKOPACK_V2.cpp" />
     <ClCompile Include="..\Text.cpp" />
   </ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="..\MNG_Chunk.h" />
     <ClInclude Include="..\MNG_Struct.h" />
     <ClInclude Include="..\NEKOPACK_V1.h" />
+    <ClInclude Include="..\NEKOPACK_V1_5.h" />
     <ClInclude Include="..\NEKOPACK_V1_Struct.h" />
     <ClInclude Include="..\NEKOPACK_V2.h" />
     <ClInclude Include="..\Text.h" />
