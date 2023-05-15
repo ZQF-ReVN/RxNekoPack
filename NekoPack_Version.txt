@@ -1,5 +1,6 @@
 NekoPack New Version (2008 - ) [Chartreux Inc.][Hash File Name]
 Pack Siganture "NEKOPACK"'
+NEKOAPCK_V2
 
 2016-07-29 Pure More    少女マイノリティ-慰めの愛-
 2015-12-18 Chelsea Soft ソラコイ
@@ -7,11 +8,17 @@ Pack Siganture "NEKOPACK"'
 2011-06-24 Rosebleu     Stellar ☆ Theater Encore
 2009-06-26 Rosebleu     Stellar ☆ Theater
 2008-02-29 Lime         ノストラダムスに聞いてみろ♪
+
+NekoPack Old Version ( - 2006)  [Omegavision Inc.]
+Pack Siganture "NEKOPACK"'
+NEKOAPCK_V1_5
+
 2006-11-24 Navel        Really? Really!
 
 
 NekoPack Old Version ( - 2005) [Omegavision Inc.]
 Pack Siganture "NEKOPACK"'
+NEKOAPCK_V1
 
 2004-06-25 Lass         3days～満ちてゆく刻の彼方で～
 2005-09-16 Navel        Tick! Tack!
@@ -35,6 +42,7 @@ NekoSDK 也有相同的文件标识头 "NEKOPACK"，但是他们本质上是两�
 NekoSDK 的封包后缀一般为 .pak 而NekoPack一般为 .dat ，NekoSDK一般被 Waffle 使用而且目录下会有 ini 等文件
 NekoPack 也被称为 NekoBrand [crass] 或 NekoPack Version 1 [AE]
 NekoPack 主要有两个不同的版本，这两个版本的显著差异是，新版本采用了Hash文件名，导致无法直接从封包中得到文件名。
-NekoPack 的旧版本主要在2005年以前的游戏使用，新版本从2006年开始使用至今。
+NekoPack 的旧版本主要在2005年以前的游戏使用，新版本从2008年开始使用至今。
 除此之外，这两个主要版本的差异不大，脚本格式类似，图片以 png mng 为主，也有psd文件的情况
 新旧版本均支持免封包读取，但是优先封包而不是目录，只要在封包里没有文件，或封包移除的情况下读取目录下文件。
+
