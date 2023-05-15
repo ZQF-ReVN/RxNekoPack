@@ -1,6 +1,6 @@
 ﻿#include "NEKOPACK_V1.h"
-#include "../../ThirdParty/Rut/MemX.h"
-#include "../../ThirdParty/Rut/FileX.h"
+#include "../../ThirdParty/Rxx/include/Mem.h"
+#include "../../ThirdParty/Rxx/include/File.h"
 
 #include <fstream>
 #include <direct.h>

@@ -131,6 +131,7 @@
     <ClCompile Include="..\MNG.cpp" />
     <ClCompile Include="..\MNG_Chunk.cpp" />
     <ClCompile Include="..\NEKOPACK_V1.cpp" />
+    <ClCompile Include="..\NEKOPACK_V2.cpp" />
     <ClCompile Include="..\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,11 +141,12 @@
     <ClInclude Include="..\MNG_Struct.h" />
     <ClInclude Include="..\NEKOPACK_V1.h" />
     <ClInclude Include="..\NEKOPACK_V1_Struct.h" />
+    <ClInclude Include="..\NEKOPACK_V2.h" />
     <ClInclude Include="..\Text.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ThirdParty\Rut\vcproject\Rut.vcxproj">
-      <Project>{05eda7c5-ed66-4b69-b8fa-eb612d4a8291}</Project>
+    <ProjectReference Include="..\..\..\ThirdParty\Rxx\Rxx.vcxproj">
+      <Project>{6b1ab12f-a3bb-4513-9592-3c15a1100fbe}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

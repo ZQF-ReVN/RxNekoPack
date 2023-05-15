@@ -1,6 +1,6 @@
 ﻿#include "MNG_Chunk.h"
 #include "MNG_Struct.h"
-#include "../../ThirdParty/Rut/MemX.h"
+#include "../../ThirdParty/Rxx/include/Mem.h"
 
 using namespace Rut::MemX;
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <cstdint>
 
 namespace NekoPackTools
@@ -23,7 +23,7 @@ namespace NekoPackTools
 		};
 
 		/*
-		* 2004-06-25 Lass  3days¡«œº¤Á¤Æ¤æ¤¯¿Ì¤Î±Ë·½¤Ç¡«
+		* 2004-06-25 Lass  3daysï½æº€ã¡ã¦ã‚†ãåˆ»ã®å½¼æ–¹ã§ï½
 		* 2005-09-16 Navel Tick! Tack!
 		*/
 	}

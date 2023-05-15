@@ -2,10 +2,10 @@
 
 #include "../../Modules/NekoPackTools/MNG.h"
 #include "../../Modules/NekoPackTools/MNG_Struct.h"
-#include "../../ThirdParty/Rut/FileX.h"
+#include "../../ThirdParty/Rxx/include/File.h"
 
-using namespace NekoPackTools::Picture;
 using namespace Rut::FileX;
+using namespace NekoPackTools::Picture;
 
 
 int wmain(int argc, wchar_t* argv[])
@@ -26,7 +26,7 @@ int wmain(int argc, wchar_t* argv[])
 			std::cout << "Repack Completed!" << std::endl;
 		};
 
-		auto parser = [&argv, &extract, &create](const std::wstring& wsFile) -> bool
+		auto parse = [&argv, &extract, &create](const std::wstring& wsFile) -> bool
 		{
 			if (*argv[2] == L'E') { extract(wsFile); return true; }
 			if (*argv[2] == L'R') { create(wsFile); return true; }
@@ -57,7 +57,7 @@ int wmain(int argc, wchar_t* argv[])
 		case 1: { info(); } break;
 		case 2: { extract(file); } break;
 		case 3: { create(file); } break;
-		case 4: { if (parser(file)) { break; } }
+		case 4: { if (parse(file)) { break; } }
 		default: { std::cerr << "parameters error!" << std::endl; }
 		}
 	}

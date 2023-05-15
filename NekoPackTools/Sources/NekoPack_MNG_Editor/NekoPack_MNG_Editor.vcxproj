@@ -130,8 +130,11 @@
     <ClCompile Include="NekoPack_MNG_Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\NekoPackTools\NekoPackTools.vcxproj">
+    <ProjectReference Include="..\..\Modules\NekoPackTools\vcproject\NekoPackTools.vcxproj">
       <Project>{d39049a0-6fb7-41f5-acb1-0f07c7dbce65}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\Rxx\Rxx.vcxproj">
+      <Project>{6b1ab12f-a3bb-4513-9592-3c15a1100fbe}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

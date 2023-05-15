@@ -1,14 +1,16 @@
 ﻿#include <Windows.h>
 
-#include "../../ThirdParty/Rcf/INI.hpp"
-#include "../../ThirdParty/Rut/FileX.h"
+#include "../../ThirdParty/Rxx/include/INI.h"
+#include "../../ThirdParty/Rxx/include/File.h"
 #include "../../Modules/NekoPackTools/FileHook.h"
 
 static DWORD g_dwExeBase = NULL;
 static DWORD g_dwDllBase = NULL;
 
+using namespace Rcf::INI;
 using namespace Rut::FileX;
 using namespace NekoPackTools::Pack;
+
 
 VOID StartHook()
 {
@@ -16,19 +18,20 @@ VOID StartHook()
 
 	try
 	{
-		Rcf::INI::INI_File ini(dll_name_noext + L".ini");
-		bool isHook = ini.Get(L"NekoPack_FileHook", L"SetHook");
-		bool isDump = ini.Get(L"NekoPack_FileHook", L"SetDump");
-		int hook_rva = ini.Get(L"NekoPack_FileHook", L"HookRVA");
-		int dump_rva = ini.Get(L"NekoPack_FileHook", L"DumpRVA");
+		INI_File ini(dll_name_noext + L".ini");
+		KeysMap& neko_hook = ini[L"NekoPack_FileHook"];
+		bool isHook = neko_hook[L"SetHook"];
+		bool isDump = neko_hook[L"SetDump"];
+		uint32_t hook_rva = neko_hook[L"HookRVA"];
+		uint32_t dump_rva = neko_hook[L"DumpRVA"];
 
 		if (isHook == true) { SetFileHook(g_dwExeBase + hook_rva); return; }
 		if (isDump == true) { SetFileDump(g_dwExeBase + dump_rva); return; }
 	}
 	catch (const std::runtime_error& err)
 	{
-		std::ofstream ofs(dll_name_noext + L".log");
-		ofs << err.what() << std::endl;
+		MessageBoxA(NULL, err.what(), "NekoPack_FileHook", NULL);
+		exit(-1);
 	}
 }
 

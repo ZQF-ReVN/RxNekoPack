@@ -1,12 +1,13 @@
 ﻿#include "Text.h"
-#include "../../ThirdParty/Rut/StringX.h"
-#include "../../ThirdParty/Rut/ConsoleX.h"
+#include "../../ThirdParty/Rxx/include/Str.h"
+#include "../../ThirdParty/Rxx/include/Console.h"
 
 #include <fstream>
 #include <iomanip>
 
-using namespace Rut::StringX;
+using namespace Rut::StrX;
 using namespace Rut::ConsoleX;
+
 
 namespace NekoPackTools
 {

@@ -1,6 +1,6 @@
 ﻿#include "MNG.h"
 #include "MNG_Struct.h"
-#include "../../ThirdParty/Rut/FileX.h"
+#include "../../ThirdParty/Rxx/include/File.h"
 
 #include <fstream>
 #include <direct.h>

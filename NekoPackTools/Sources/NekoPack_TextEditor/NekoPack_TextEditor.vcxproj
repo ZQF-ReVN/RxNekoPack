@@ -129,6 +129,11 @@
   <ItemGroup>
     <ClCompile Include="NekoPack_TextEditor.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\NekoPackTools\vcproject\NekoPackTools.vcxproj">
+      <Project>{d39049a0-6fb7-41f5-acb1-0f07c7dbce65}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

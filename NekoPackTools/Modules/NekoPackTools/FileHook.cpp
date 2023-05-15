@@ -1,6 +1,10 @@
 ﻿#include "FileHook.h"
-#include "../../ThirdParty/Rut/HookX.h"
-#include "../../ThirdParty/Rut/FileX.h"
+#include "../../ThirdParty/Rxx/include/Hook.h"
+#include "../../ThirdParty/Rxx/include/File.h"
+
+
+using namespace Rut::HookX;
+using namespace Rut::FileX;
 
 
 namespace NekoPackTools
@@ -51,7 +55,6 @@ namespace NekoPackTools
 		//********************
         //* Hook PackResRead *
         //********************
-
 		struct ResStream
 		{
 			DWORD dwExceptionHandler;
@@ -74,12 +77,12 @@ namespace NekoPackTools
 				lstrcpyA(g_aDump_RelativePath, "Dump/");
 				lstrcatA(g_aDump_RelativePath, lpFolder);
 
-				Rut::FileX::BackSlash(g_aDump_RelativePath);
+				BackSlash(g_aDump_RelativePath);
 
 				lstrcatA(g_aDump_RelativePath, "\\");
 				lstrcatA(g_aDump_RelativePath, lpResName);
 
-				Rut::FileX::SaveFileViaPath(g_aDump_RelativePath, (void*)pStream->dwBuffer, pStream->dwSize);
+				SaveFileViaPath(g_aDump_RelativePath, (void*)pStream->dwBuffer, pStream->dwSize);
 			}
 
 			return pInfo;
@@ -91,13 +94,13 @@ namespace NekoPackTools
 		bool SetFileHook(DWORD dwPackResLoadRaw)
 		{
 			PackResLoadRaw = (fnPackResLoad)dwPackResLoadRaw;
-			return Rut::HookX::DetourAttachFunc(&PackResLoadRaw, PackResLoadNew);
+			return DetourAttachFunc(&PackResLoadRaw, PackResLoadNew);
 		}
 
 		bool SetFileDump(DWORD dwPackResReadRaw)
 		{
 			PackResReadRaw = (pPackResRead)dwPackResReadRaw;
-			return Rut::HookX::DetourAttachFunc(&PackResReadRaw, PackResReadNew);
+			return DetourAttachFunc(&PackResReadRaw, PackResReadNew);
 		}
 	}
 }

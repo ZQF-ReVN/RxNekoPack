@@ -22,6 +22,9 @@
     <Filter Include="Script\Text">
       <UniqueIdentifier>{34476804-1aa1-41e9-882f-bbf44caca7bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pack\NEKOPACK_V2">
+      <UniqueIdentifier>{3c1fc292-cf0a-4835-ad9f-a46b88862028}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NEKOPACK_V1.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="..\Text.cpp">
       <Filter>Script\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NEKOPACK_V2.cpp">
+      <Filter>Pack\NEKOPACK_V2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="..\Text.h">
       <Filter>Script\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NEKOPACK_V2.h">
+      <Filter>Pack\NEKOPACK_V2</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
