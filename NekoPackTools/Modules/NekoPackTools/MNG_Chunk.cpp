@@ -104,8 +104,8 @@ namespace NekoPackTools
 		{
 			//Init File Buffer
 			AutoMem auto_buffer(wsFile);
-			size_t file_size = auto_buffer.GetMaxSize();
-			uint8_t* file_buffer = auto_buffer.GetPointer();
+			size_t file_size = auto_buffer.GetSize();
+			uint8_t* file_buffer = auto_buffer.GetPtr();
 			if (file_size == 0 || file_buffer == nullptr) { throw std::runtime_error("Chunk::LoadChunks: Init File Buffer Error"); }
 
 			//Read Each Chunk

@@ -48,7 +48,7 @@ namespace NekoPackTools
 			uint32_t table[625] = { 0 };
 			for (const auto& entry : m_vecIndex)
 			{
-				uint8_t* buffer_ptr = buffer.ReSize(entry.uiResSize);
+				uint8_t* buffer_ptr = buffer[entry.uiResSize];
 
 				ifs_Pack.seekg(entry.uiResOffset, std::ios::beg);
 				ifs_Pack.read((char*)buffer_ptr, entry.uiResSize);

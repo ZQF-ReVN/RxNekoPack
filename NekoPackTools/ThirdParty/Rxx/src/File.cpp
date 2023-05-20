@@ -107,7 +107,7 @@ namespace Rut
 		}
 
 
-		void BackSlash(char* pPath)
+		char* BackSlash(char* pPath)
 		{
 			for (size_t ite = 0; pPath[ite]; ite++)
 			{
@@ -123,9 +123,11 @@ namespace Rut
 					break;
 				}
 			}
+
+			return pPath;
 		}
 
-		void BackSlash(wchar_t* pPath)
+		wchar_t* BackSlash(wchar_t* pPath)
 		{
 			for (size_t ite = 0; pPath[ite]; ite++)
 			{
@@ -139,6 +141,8 @@ namespace Rut
 					break;
 				}
 			}
+
+			return pPath;
 		}
 
 		void BackSlash(const char* pPath, std::string& msPath)

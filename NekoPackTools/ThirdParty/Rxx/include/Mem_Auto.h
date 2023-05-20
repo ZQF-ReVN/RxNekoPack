@@ -12,8 +12,8 @@ namespace Rut
 		class AutoMem
 		{
 		private:
-			uint8_t* m_pBuffer;
-			size_t   m_szMaxAlloc;
+			size_t m_szData;
+			uint8_t* m_pData;
 
 		public:
 			AutoMem();
@@ -23,14 +23,21 @@ namespace Rut
 			AutoMem(const std::wstring& wsFile, size_t szFile);
 			~AutoMem();
 
-			uint8_t* ReSize(size_t szRes);
-			size_t   GetMaxSize() { return m_szMaxAlloc; }
-			uint8_t* GetPointer() { return m_pBuffer; }
-			void Clear();
+			template <typename T_Ptr>
+			operator T_Ptr* () { return m_pData; }
 
-			uint8_t* LoadFile(const std::wstring& wsFile);
-			uint8_t* LoadFileViaSize(const std::wstring& wsFile, size_t szFile);
-			void     SaveToFile(const std::wstring& wsFile);
+			template <typename T_Type>
+			operator T_Type () { return m_szData; }
+
+			template <typename T_Size>
+			AutoMem& operator[] (T_Size tSize) { ReSize(tSize); return *this; }
+
+			uint8_t* ReSize(size_t szRes);
+			size_t GetSize() { return m_szData; }
+			uint8_t* GetPtr() { return m_pData; }
+
+			uint8_t* LoadFileViaSize(const std::wstring& wsFile, size_t szFile = -1);
+			void     SaveDataToFile(const std::wstring& wsFile);
 		};
 	}
 }

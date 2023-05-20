@@ -26,8 +26,8 @@ namespace Rut
 		std::wstring GetCurrentDirectoryFolder_RETW();
 
 
-		void         BackSlash(char* pPath);
-		void         BackSlash(wchar_t* pPath);
+		char*		 BackSlash(char* pPath);
+		wchar_t*	 BackSlash(wchar_t* pPath);
 		void         BackSlash(const char* pPath, std::string& msPath);
 		void         BackSlash(const wchar_t* pPath, std::wstring& wsPath);
 		std::string  BackSlash_RET(const char* pPath);

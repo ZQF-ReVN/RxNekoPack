@@ -1,15 +1,29 @@
 ﻿#include <Windows.h>
 
 #include "../../ThirdParty/Rxx/include/INI.h"
+#include "../../ThirdParty/Rxx/include/Str.h"
 #include "../../ThirdParty/Rxx/include/File.h"
+#include "../../ThirdParty/Rxx/include/Hook.h"
 #include "../../Modules/NekoPackTools/FileHook.h"
+
 
 static DWORD g_dwExeBase = NULL;
 static DWORD g_dwDllBase = NULL;
 
 using namespace Rcf::INI;
+using namespace Rut::StrX;
 using namespace Rut::FileX;
+using namespace Rut::HookX;
 using namespace NekoPackTools::Pack;
+
+
+char* SaveString(const std::wstring& wsString)
+{
+	std::string str = WStrToStr(wsString, CP_ACP);
+	char* pStr = new char[str.size() + 1];
+	memcpy(pStr, str.c_str(), str.size() + 1);
+	return pStr;
+}
 
 
 VOID StartHook()
@@ -19,14 +33,51 @@ VOID StartHook()
 	try
 	{
 		INI_File ini(dll_name_noext + L".ini");
-		KeysMap& neko_hook = ini[L"NekoPack_FileHook"];
-		bool isHook = neko_hook[L"SetHook"];
-		bool isDump = neko_hook[L"SetDump"];
-		uint32_t hook_rva = neko_hook[L"HookRVA"];
-		uint32_t dump_rva = neko_hook[L"DumpRVA"];
+		auto& neko_hook = ini[L"NekoPack_FileHook"];
+		auto& neko_config = ini[L"Config"];
 
-		if (isHook == true) { SetFileHook(g_dwExeBase + hook_rva); return; }
-		if (isDump == true) { SetFileDump(g_dwExeBase + dump_rva); return; }
+		uint32_t version = neko_hook[L"Version"];
+
+		if (version == 2)
+		{
+			uint32_t fn_load_file_rva = neko_hook[L"LoadFile"];
+
+			bool isHook = neko_config[L"SetHook"];
+			bool isDump = neko_config[L"SetDump"];
+
+			if (isHook == true) 
+			{ 
+				char* cs_hook_folder = SaveString(neko_config[L"HookFolder"]);
+				SetHookFolder(cs_hook_folder);
+				SetReplaceFolder(cs_hook_folder);
+				SetFileHook_V2(g_dwExeBase + fn_load_file_rva);
+				return;
+			}
+
+			if (isDump == true) 
+			{ 
+				SetDumpFolder(SaveString(neko_config[L"DumpFolder"]));
+				SetFileDump_V2(g_dwExeBase + fn_load_file_rva);
+				return; 
+			}
+		}
+
+		if (version == 1)
+		{
+			bool is_hook_font = neko_config[L"SetFontHook"];
+			if (is_hook_font)
+			{
+				HookCreateFontIndirectA(neko_config[L"Charset"], SaveString(neko_config[L"FontName"]));
+			}
+
+			uint32_t fn_find_entry_rva = neko_hook[L"FindEntry"];
+
+			SetHookFolder(SaveString(neko_config[L"HookFolder"]));
+			SetReplaceFolder(SaveString(neko_config[L"ReplaceFolder"]));
+			SetFileHook_V1(g_dwExeBase + fn_find_entry_rva); 
+			return;
+		}
+
 	}
 	catch (const std::runtime_error& err)
 	{
