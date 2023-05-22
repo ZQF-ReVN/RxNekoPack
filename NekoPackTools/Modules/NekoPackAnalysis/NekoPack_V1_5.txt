@@ -1,0 +1,119 @@
+NekoPack_V1_5
+
+struct Name
+{
+	uint8_t uc;
+	uint8_t aStr[uc];
+};
+
+struct Res
+{
+	Name res_name;
+	uint32_t uiOffset;
+};
+
+struct Folder
+{
+	Name folder_name;
+	uint32_t uiResCount;
+	Res res[uiResCount];
+};
+
+struct Index
+{
+	uint32_t uiFolderCount;
+	Folder foler[uiFolderCount];
+};
+
+struct NekoPack_V1_5
+{
+	uint8_t ucSignature[8];  // "NEKOPACK"
+	uint32_t uiUn0;
+	uint32_t uiTableKey;
+	uint8_t ucTable[0x400];
+	uint32_t uiIndexKey;
+	uint32_t uiIndexSize;
+	uint8_t ucIndex[uiIndexSize];
+	Res Data```
+};
+
+
+0x005A83A0 读取封包索引表和初始化解密表
+0x005AD408 uiTable 解密函数
+0x005A751C 封包原始资源读取函数
+0x005AD42C 资源解密函数
+
+// 封包结构初始化
+先读取uiUn0和uiTableKey，然后读取ucTable，对ucTable进行解密
+ucTable后面用来解密资源文件的大小和资源文件的数据，包括资源文件索引表
+接着读取uiIndexKey和uiIndexSize，通过前面得到的ucTable和uiIndexKey对索引表大小进行解密
+得到大小后，读取索引表数据ucIndex，通过uiIndexKey和解密后的ucTable对索引表进行解密
+
+
+0x005AAB40 在内部索引表中找到当前需要读取的文件名，并获取信息
+
+// 读取资源文件
+先通过要读取的目标文件名，遍历索引表
+找到资源文件在索引表中的索引，得到偏移信息，计算出在封包文件的偏移
+然后CreateFile打开封包，设置文件偏移，读取并解密数据
+从偏移处，读取解密key，然后读取大小，解密大小，得到大小后读取资源数据并通过key和table解密
+
+
+Index Offset
++ [0x8]      signature
++ [0x4]      un0
++ [0x4]      tablekey
++ [0x400]    table
++ [0x4]      indexkey
++ [0x8]      indexsize
++ [0x1220]   index
+Pack File Offset
+
+
+mov ecx,nSize
+mov ebx,nKey
+shr ecx,2
+
+do:
+//count_index_in_table_2:
+mov edx,dword ptr ds:[pEnc]
+add ebx,0xEB0974C3
+shl ebx,17
+shr ebx,17
+
+// xor enc data:
+xor edx,dword ptr ds:[ebx+pTable]
+
+// write dec data:
+mov dword ptr ds:[pEnc],edx
+
+// add index
+add ebx,edx
+
+// add pEnc
+add pEnc,4
+
+loop do
+
+ret
+
+uint32_t GetIndex(uint32_t nKey)
+{
+	nKey += 0xEB0974C3;
+	nKey <<= 0x17;
+	nKey >>= 0x17;
+	return nKey;
+}
+
+void DecBuffer(uint32_t* pEnc, uint32_t* pTable, uint32_t nKey, uint32_t nSize)
+{
+	uint32_t count = nSize / 4;
+	while (count--)
+	{
+		nKey += 0xEB0974C3;
+		nKey <<= 0x17;
+		nKey >>= 0x17;
+		pEnc[0] ^= *(uint32_t*)((uint32_t)pTable + nKey);
+		nKey += pEnc++[0];
+	}
+}

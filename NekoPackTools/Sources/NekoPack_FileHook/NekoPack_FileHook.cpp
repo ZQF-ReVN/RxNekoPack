@@ -1,10 +1,10 @@
 ﻿#include <Windows.h>
 
-#include "../../ThirdParty/Rxx/include/INI.h"
-#include "../../ThirdParty/Rxx/include/Str.h"
-#include "../../ThirdParty/Rxx/include/File.h"
-#include "../../ThirdParty/Rxx/include/Hook.h"
-#include "../../Modules/NekoPackTools/FileHook.h"
+#include "Rxx/include/INI.h"
+#include "Rxx/include/Str.h"
+#include "Rxx/include/File.h"
+#include "Rxx/include/Hook.h"
+#include "NekoPackTools/include/FileHook.h"
 
 
 static DWORD g_dwExeBase = NULL;
@@ -33,30 +33,32 @@ VOID StartHook()
 	try
 	{
 		INI_File ini(dll_name_noext + L".ini");
-		auto& neko_hook = ini[L"NekoPack_FileHook"];
-		auto& neko_config = ini[L"Config"];
+		bool is_hook_file = ini[L"Control"][L"HookFile"];
+		bool is_dump_file = ini[L"Control"][L"DumpFile"];
+		bool is_hook_font = ini[L"Control"][L"HookFont"];
+		std::wstring game_select = ini[L"Control"][L"GameSelect"];
+		uint32_t version = ini[game_select][L"Version"];
 
-		uint32_t version = neko_hook[L"Version"];
+		if (is_hook_font)
+		{
+			HookCreateFontIndirectA(ini[L"Font"][L"Charset"], SaveString(ini[L"Font"][L"FontName"]));
+		}
 
 		if (version == 2)
 		{
-			uint32_t fn_load_file_rva = neko_hook[L"LoadFile"];
+			uint32_t fn_load_file_rva = ini[game_select][L"LoadFile"];
 
-			bool isHook = neko_config[L"SetHook"];
-			bool isDump = neko_config[L"SetDump"];
-
-			if (isHook == true) 
+			if (is_hook_file == true)
 			{ 
-				char* cs_hook_folder = SaveString(neko_config[L"HookFolder"]);
-				SetHookFolder(cs_hook_folder);
-				SetReplaceFolder(cs_hook_folder);
+				SetHookFolder(SaveString(ini[L"Folder_V2"][L"HookFolder"]));
+				SetReplaceFolder(SaveString(ini[L"Folder_V2"][L"HookFolder"]));
 				SetFileHook_V2(g_dwExeBase + fn_load_file_rva);
 				return;
 			}
 
-			if (isDump == true) 
+			if (is_dump_file == true)
 			{ 
-				SetDumpFolder(SaveString(neko_config[L"DumpFolder"]));
+				SetDumpFolder(SaveString(ini[L"Folder_V2"][L"DumpFolder"]));
 				SetFileDump_V2(g_dwExeBase + fn_load_file_rva);
 				return; 
 			}
@@ -64,16 +66,10 @@ VOID StartHook()
 
 		if (version == 1)
 		{
-			bool is_hook_font = neko_config[L"SetFontHook"];
-			if (is_hook_font)
-			{
-				HookCreateFontIndirectA(neko_config[L"Charset"], SaveString(neko_config[L"FontName"]));
-			}
+			uint32_t fn_find_entry_rva = ini[game_select][L"FindEntry"];
 
-			uint32_t fn_find_entry_rva = neko_hook[L"FindEntry"];
-
-			SetHookFolder(SaveString(neko_config[L"HookFolder"]));
-			SetReplaceFolder(SaveString(neko_config[L"ReplaceFolder"]));
+			SetHookFolder(SaveString(ini[L"Folder_V1"][L"HookFolder"]));
+			SetReplaceFolder(SaveString(ini[L"Folder_V1"][L"ReplaceFolder"]));
 			SetFileHook_V1(g_dwExeBase + fn_find_entry_rva); 
 			return;
 		}

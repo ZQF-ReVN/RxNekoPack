@@ -1,0 +1,225 @@
+NEKOPACK_V2 结构
+
+struct Res_Path
+{
+	uint32_t uiPathNameHash;            // 资源文件路径的Hash值
+	uint32_t uiResFileCount;            // 路径下的资源文件数量
+}
+
+struct Res_Info
+{
+	uint32_t uiNameHash;                // 资源文件名的Hash值
+	uint32_t uiResSize;                 // 资源文件数据的大小
+}
+
+struct Res_Data
+{
+	uint32_t uiDataKey;                 // 资源文件数据的解密密钥
+	uint32_t uiDataSize;                // 资源文件数据的大小
+	uint8_t[uiDataSize];                // 资源文件数据
+}
+
+struct Index                            // 一个索引表可以包含多个路径，也就是一个封包内包含多个路径，以索引表大小为读取结束标志
+{
+	Res_Path;                           // 第一个路径的资源文件信息
+	Res_Info[Res_Path.uiResCount];      // 该路径下资源文件的索引信息
+	Res_Path;                           // 第二个路径
+	Res_Info[Res_Path.uiResCount];      // 该路径下资源文件的索引信息
+	````                                // 如果还有其它路径则继续重复上述结构，最少一个路径
+}
+
+struct NEKOPACK_V2
+{
+	uint8_t[8] ucSignature;             // 文件标识头 "NEKOPACK"
+	uint32_t uiCheck;                   // 读取过程中通过游戏名生成，判断封包是否属于该游戏，计算hash也用到了该数值作为初始化，校验解密密钥
+	uint32_t uiPrio;                    // 有可能是用于判断封包读取的优先级。
+	uint32_t uiIndexKey;                // 用于解密索引表的密钥
+	uint32_t uiIndexSize;               // 索引表的大小
+	uint8_t index[uiIndexSize];         // 索引表数据
+	Res_Data[??]                        // 资源文件数据
+}
+
+
+struct MemStruct
+{
+	DWORD dwUn0;
+	DWORD dwUn1;
+	DWORD dwUn2;
+	PDWORD pMem;
+	DWORD dwSize;
+	DWORD dwAlign; // 64Bytes
+};
+
+!注意: 
+	封包结构上并没有记录每一个资源文件的偏移信息
+	但是资源文件的数据在封包内的排列顺序和索引表中的排序相同
+	可以通过索引表中资源文件的大小，进行累加计算出资源文件的偏移。
+
+!关键地址集：[ソラコイ]
+	00624F90   AllocMem        ->   内存分配函数，输入参数MemStream指针和大小
+	00624FE8   FreeMem         ->   内存释放函数，输入参数MemStream指针
+
+	00677A18   CheckKey        ->   解密密钥检查，输入参数，uiCheck和密钥
+	00677AC0   GenKeyTable     ->   解密表生成，输入参数，存储表的缓冲区和密钥
+	00677AF4   DecodeRes       ->   解密数据，输入参数，解密数据存放的缓冲区和加密数据存放的缓冲区
+	004F17F0   PackRead_1      ->   封包资源读取解密函数
+
+	00677A74   GenHash         ->   计算Hash值函数，输入初始化uiCheck值和一个字符串指针
+	004F192D   PackResRead_0   ->   计算路径和文件名Hash
+
+	00463990   Init_Res        ->   初始化各封包结构函数
+	004F3BA8   LoadRes_1       ->   封包资源文件加载函数，Hook此函数修改路径可以免封包，同时可dump资源文件
+	0063CEA0   LoadStartScript ->   用于读取第一个Start.txt脚本，似乎在初始化虚拟机
+
+	0046247A   Run_VM          ->   执行虚拟机指令和消息循环。
+
+	00677A48   GenPackCheck    ->   生成uiCheck的值，如输入字符串 "SORAKOI"
+	004F0184   Init_Pack_1     ->   判断文件标识头 "NEKOPACK"
+	004F01DE   Init_Pack_1     ->   读取uiCheck和uiPrio
+	004F027B   Init_Pack_1     ->   读取并解密索引表
+
+	00465704   LoadAudio       ->   加载Ogg音频文件
+	004699C4   LoadMSK         ->   加载PNG，JPG的遮罩文件
+	0046B0FC   LoadSingleImage ->   加载单层PNG，PSD，JPG文件
+	0046F02C   LoadMultiImage  ->   加载多层MNG，PSD文件
+	00470764   LoadSystemScript->   加载txt，nut系统脚本
+	004741EC   LoadUserScript  ->   加载txt，bin用户脚本
+
+!没分析完的内部数据结构：
+struct MemStruct
+{
+	DWORD dwUn0;
+	DWORD dwUn1;
+	DWORD dwUn2;
+	PDWORD pMem;
+	DWORD dwSize;
+	DWORD dwAlign; // 64Bytes
+};
+
+struct PackStruct
+{
+	DWORD dwUn0;
+	DWORD fn_ReadPackData;
+	DWORD dwUn1;
+	DWORD dwUn2;
+}
+
+struct ResInfo
+{
+	DWORD dwUn0;
+	DWORD dwUn1;
+	DWORD dwUn2;
+	DWORD dwUn3;
+	DWORD dwResFullPath;
+	DWORD dwResName;
+	DWORD dwUn4;
+	DWORD dwUn5;
+	DWORD dwResFullPathCCH;
+	DWORD dwUn7CCH;
+}
+
+LoadRes:
+pStruct_1 = pStruct_0[3] if == 0 Load Falied
+pStruct_2 = pStruct_1[2] 
+size = pStruct_2[4]		 if == 0 Load Frome Folder
+pmem = pStruct_2[6] 
+
+strutc InitPack
+{
+	DWORD dwUn0;
+	DWORD dwUn1;
+	DWORD dwUn2;
+	DWORD dwUn3;
+	DWORD dwUn4;
+	DWORD dwUn5;
+	DWORD dwUn6;
+	PDWORD pPackFullPath;
+	DWORD dwUn8;
+	DWORD dwUn9;
+	DWORD dwUnA;
+	DWORD dwUnB;
+	DWORD dwUnC;
+	DWORD dwNumber_0;
+	DWORD dwNumber_1;
+}
+
+LoadRes -> if_res_in_pack -> PackResRead_0 -> PackResRead_1			:Read Res Data Frome Pack To Buffer
+
+LoadRes -> (if_res_not_in_pack || if_res_in_folder) -> OpenFileX	:Open Res File In Game Folder Save Handle Return
+
+
+static uint8_t sg_ucHashTable[] = 
+{
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x38, 0x2F, 0x33, 0x3C, 0x40, 0x3B, 0x2A, 0x2E, 0x31, 0x30, 0x26, 0x44, 0x35, 0x28, 0x3E, 0x12,
+	0x02, 0x22, 0x06, 0x20, 0x1A, 0x1C, 0x0F, 0x11, 0x18, 0x17, 0x42, 0x2B, 0x3A, 0x37, 0x34, 0x0C,
+	0x41, 0x08, 0x1D, 0x07, 0x15, 0x21, 0x05, 0x1E, 0x0A, 0x14, 0x0E, 0x10, 0x09, 0x27, 0x1F, 0x0B,
+	0x23, 0x16, 0x0D, 0x01, 0x25, 0x04, 0x1B, 0x03, 0x13, 0x24, 0x19, 0x2D, 0x12, 0x29, 0x32, 0x3F,
+	0x3D, 0x08, 0x1D, 0x07, 0x15, 0x21, 0x05, 0x1E, 0x0A, 0x14, 0x0E, 0x10, 0x09, 0x27, 0x1F, 0x0B,
+	0x23, 0x16, 0x0D, 0x01, 0x25, 0x04, 0x1B, 0x03, 0x13, 0x24, 0x19, 0x2C, 0x39, 0x43, 0x36, 0x00,
+	0x4B, 0xA9, 0xA7, 0xAF, 0x50, 0x52, 0x91, 0x9F, 0x47, 0x6B, 0x96, 0xAB, 0x87, 0xB5, 0x9B, 0xBB,
+	0x99, 0xA4, 0xBF, 0x5C, 0xC6, 0x9C, 0xC2, 0xC4, 0xB6, 0x4F, 0xB8, 0xC1, 0x85, 0xA8, 0x51, 0x7E,
+	0x5F, 0x82, 0x73, 0xC7, 0x90, 0x4E, 0x45, 0xA5, 0x7A, 0x63, 0x70, 0xB3, 0x79, 0x83, 0x60, 0x55,
+	0x5B, 0x5E, 0x68, 0xBA, 0x53, 0xA1, 0x67, 0x97, 0xAC, 0x71, 0x81, 0x59, 0x64, 0x7C, 0x9D, 0xBD,
+	0x9D, 0xBD, 0x95, 0xA0, 0xB2, 0xC0, 0x6F, 0x6A, 0x54, 0xB9, 0x6D, 0x88, 0x77, 0x48, 0x5D, 0x72,
+	0x49, 0x93, 0x57, 0x65, 0xBE, 0x4A, 0x80, 0xA2, 0x5A, 0x98, 0xA6, 0x62, 0x7F, 0x84, 0x75, 0xBC,
+	0xAD, 0xB1, 0x6E, 0x76, 0x8B, 0x9E, 0x8C, 0x61, 0x69, 0x8D, 0xB4, 0x78, 0xAA, 0xAE, 0x8F, 0xC3,
+	0x58, 0xC5, 0x74, 0xB7, 0x8E, 0x7D, 0x89, 0x8A, 0x56, 0x4D, 0x86, 0x94, 0x9A, 0x4C, 0x92, 0xB0
+};
+
+uint32_t GenHash(const uint32_t uiInit, const uint8_t* pStr)
+{
+	uint32_t chax = 0, hash = uiInit;
+	while ((chax = *pStr++)) { hash = 0x51 * (sg_ucHashTable[chax] ^ hash); }
+	return hash;
+}
+
+void GenKeyTable(uint32_t* pKeyTable, uint32_t nKey)
+{
+	uint32_t gen1 = nKey ^ (nKey + 0x5D588B65);
+	uint32_t gen2 = gen1 ^ (nKey - 0x359D3E2A);
+	uint32_t gen3 = gen2 ^ (gen1 - 0x70E44324);
+	pKeyTable[0] = gen3;
+	pKeyTable[1] = gen3 ^ (gen2 + 0x6C078965);
+}
+
+// block = 0x8 bytes
+void DecodeBlocks(uint32_t* pEnc, uint32_t* pKeyTable, size_t nBlock)
+{
+	uint16_t* enc_buf = (uint16_t*)pEnc;
+	uint16_t* key_buf = (uint16_t*)pKeyTable;
+
+	uint16_t mm1_ll = key_buf[0];
+	uint16_t mm1_lh = key_buf[1];
+	uint16_t mm1_hl = key_buf[2];
+	uint16_t mm1_hh = key_buf[3];
+
+	while (nBlock--)
+	{
+		uint16_t& mm0_ll = enc_buf++[0];
+		uint16_t& mm0_lh = enc_buf++[0];
+		uint16_t& mm0_hl = enc_buf++[0];
+		uint16_t& mm0_hh = enc_buf++[0];
+
+		mm0_ll ^= mm1_ll;
+		mm0_lh ^= mm1_lh;
+		mm0_hl ^= mm1_hl;
+		mm0_hh ^= mm1_hh;
+
+		mm1_ll += mm0_ll;
+		mm1_lh += mm0_lh;
+		mm1_hl += mm0_hl;
+		mm1_hh += mm0_hh;
+	}
+}
+
+// buffer requires octet alignment
+void DecodeBuffer(uint32_t* pEnc, uint32_t nKey, size_t nSize)
+{
+	size_t block_count = nSize / 8;
+	uint32_t key_table[2] = { 0x0, 0x0 };
+	if (nSize % 8) { block_count += 1; }
+	GenKeyTable(key_table, nKey);
+	DecodeBlocks(pEnc, key_table, block_count);
+}

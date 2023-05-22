@@ -1,6 +1,6 @@
-#include <iostream>
+﻿#include <iostream>
 
-#include "../../Modules/NekoPackTools/NEKOPACK_V1.h"
+#include "../../Modules/NekoPackTools/include/NEKOPACK_V1.h"
 
 
 int main()

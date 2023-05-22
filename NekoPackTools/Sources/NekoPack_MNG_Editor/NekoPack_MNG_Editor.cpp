@@ -1,8 +1,8 @@
 ﻿#include <iostream>
 
-#include "../../Modules/NekoPackTools/MNG.h"
-#include "../../Modules/NekoPackTools/MNG_Struct.h"
-#include "../../ThirdParty/Rxx/include/File.h"
+#include "NekoPackTools/include/MNG.h"
+#include "NekoPackTools/include/MNG_Struct.h"
+#include "Rxx/include/File.h"
 
 using namespace Rut::FileX;
 using namespace NekoPackTools::Picture;

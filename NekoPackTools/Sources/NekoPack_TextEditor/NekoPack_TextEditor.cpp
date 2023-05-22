@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 
-#include "../../Modules/NekoPackTools/Text.h"
+#include "../../Modules/NekoPackTools/include/Text.h"
 
 
 int wmain(int argc, wchar_t* argv[])
