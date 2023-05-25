@@ -17,14 +17,12 @@ using namespace Rut::HookX;
 using namespace NekoPackTools::Pack;
 
 
-char* SaveString(const std::wstring& wsString)
+char* SaveString(const std::string& msStr)
 {
-	std::string str = WStrToStr(wsString, CP_ACP);
-	char* pStr = new char[str.size() + 1];
-	memcpy(pStr, str.c_str(), str.size() + 1);
+	char* pStr = new char[msStr.size() + 1];
+	memcpy(pStr, msStr.c_str(), msStr.size() + 1);
 	return pStr;
 }
-
 
 VOID StartHook()
 {
@@ -37,10 +35,10 @@ VOID StartHook()
 		bool is_dump_file = ini[L"Control"][L"DumpFile"];
 		bool is_hook_font = ini[L"Control"][L"HookFont"];
 		std::wstring game_select = ini[L"Control"][L"GameSelect"];
-		uint32_t version = ini[game_select][L"Version"];
+		std::uint32_t version = ini[game_select][L"Version"];
 
-		if (is_hook_font)
-		{
+		if (is_hook_font) 
+		{ 
 			HookCreateFontIndirectA(ini[L"Font"][L"Charset"], SaveString(ini[L"Font"][L"FontName"]));
 		}
 
@@ -73,7 +71,6 @@ VOID StartHook()
 			SetFileHook_V1(g_dwExeBase + fn_find_entry_rva); 
 			return;
 		}
-
 	}
 	catch (const std::runtime_error& err)
 	{

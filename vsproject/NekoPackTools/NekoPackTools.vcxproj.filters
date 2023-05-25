@@ -36,6 +36,9 @@
     <ClInclude Include="..\..\Modules\NekoPackTools\include\NEKOPACK_V1_5.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Modules\NekoPackTools\include\NEKOPACK_V1_5_Struct.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Modules\NekoPackTools\src\MNG_Chunk.cpp">

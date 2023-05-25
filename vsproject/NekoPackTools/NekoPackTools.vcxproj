@@ -145,6 +145,7 @@
     <ClInclude Include="..\..\Modules\NekoPackTools\include\MNG_Struct.h" />
     <ClInclude Include="..\..\Modules\NekoPackTools\include\NEKOPACK_V1.h" />
     <ClInclude Include="..\..\Modules\NekoPackTools\include\NEKOPACK_V1_5.h" />
+    <ClInclude Include="..\..\Modules\NekoPackTools\include\NEKOPACK_V1_5_Struct.h" />
     <ClInclude Include="..\..\Modules\NekoPackTools\include\NEKOPACK_V1_Struct.h" />
     <ClInclude Include="..\..\Modules\NekoPackTools\include\NEKOPACK_V2.h" />
     <ClInclude Include="..\..\Modules\NekoPackTools\include\Text.h" />

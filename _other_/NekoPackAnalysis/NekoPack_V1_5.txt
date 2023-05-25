@@ -8,13 +8,13 @@ struct Name
 
 struct Res
 {
-	Name res_name;
+	Name ResName;
 	uint32_t uiOffset;
 };
 
 struct Folder
 {
-	Name folder_name;
+	Name FolderName;
 	uint32_t uiResCount;
 	Res res[uiResCount];
 };
@@ -32,6 +32,7 @@ struct NekoPack_V1_5
 	uint32_t uiTableKey;
 	uint8_t ucTable[0x400];
 	uint32_t uiIndexKey;
+	uint32_t uiIndexSize;
 	uint32_t uiIndexSize;
 	uint8_t ucIndex[uiIndexSize];
 	Res Data```
@@ -57,7 +58,50 @@ ucTable后面用来解密资源文件的大小和资源文件的数据，包括�
 找到资源文件在索引表中的索引，得到偏移信息，计算出在封包文件的偏移
 然后CreateFile打开封包，设置文件偏移，读取并解密数据
 从偏移处，读取解密key，然后读取大小，解密大小，得到大小后读取资源数据并通过key和table解密
+!封包中的资源文件，已经全部四字节对齐，解包的时候无需再判断，封包的时候注意对齐
 
+// 0x005AD23C Init Decoder
+struct Decoder
+{
+	uint32_t uiExcepFunc;
+	uint32_t pDecTable;
+	uint32_t pDecTableEnd_0;
+	uint32_t uiUn2;
+	uint32_t uiUn3;
+	uint32_t pDecTableEnd_1;
+	uint32_t uiUn4;
+	uint32_t uiDecTableKey;
+}
+
+// 0040646C Init
+struct XString
+{
+	uint32_t pStr;
+	uint32_t uiUn5;
+	uint32_t uiUn6;
+	uint32_t uiUn7;
+	uint32_t uiUn8;	
+};
+
+// 0x005A7843 -> new obj size = 0x68
+struct PackStream
+{
+	uint32_t uiPackNum0;
+	uint32_t uiUn0;
+	Decoder  dcPackDecoder;
+	XString  xsPackFullPath;
+	uint32_t uiUn9;
+	uint32_t uiUn10;
+	uint32_t uiUn11;
+	uint32_t uiUn12;
+	uint32_t uiUn13;
+	uint32_t uiUn14;
+	uint32_t uiUn15;
+	uint32_t uiUn16;
+	uint32_t uiUn17;
+	uint32_t uiUn18;
+	uint32_t uiUn19;
+};
 
 Index Offset
 + [0x8]      signature
