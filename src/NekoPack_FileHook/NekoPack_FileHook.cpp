@@ -17,7 +17,7 @@ using namespace Rut::HookX;
 using namespace NekoPackTools::Pack;
 
 
-char* SaveString(const std::string& msStr)
+char* SaveStrOnHeap(const std::string& msStr)
 {
 	char* pStr = new char[msStr.size() + 1];
 	memcpy(pStr, msStr.c_str(), msStr.size() + 1);
@@ -39,7 +39,7 @@ VOID StartHook()
 
 		if (is_hook_font) 
 		{ 
-			HookCreateFontIndirectA(ini[L"Font"][L"Charset"], SaveString(ini[L"Font"][L"FontName"]));
+			HookCreateFontIndirectA(ini[L"Font"][L"Charset"], SaveStrOnHeap(ini[L"Font"][L"FontName"]));
 		}
 
 		if (version == 3)
@@ -48,15 +48,15 @@ VOID StartHook()
 
 			if (is_hook_file == true)
 			{ 
-				SetHookFolder(SaveString(ini[L"Folder_V3"][L"HookFolder"]));
-				SetReplaceFolder(SaveString(ini[L"Folder_V3"][L"HookFolder"]));
+				SetHookFolder(SaveStrOnHeap(ini[L"Folder_V3"][L"HookFolder"]));
+				SetReplaceFolder(SaveStrOnHeap(ini[L"Folder_V3"][L"HookFolder"]));
 				SetFileHook_V3(g_dwExeBase + fn_load_file_rva);
 				return;
 			}
 
 			if (is_dump_file == true)
 			{ 
-				SetDumpFolder(SaveString(ini[L"Folder_V3"][L"DumpFolder"]));
+				SetDumpFolder(SaveStrOnHeap(ini[L"Folder_V3"][L"DumpFolder"]));
 				SetFileDump_V3(g_dwExeBase + fn_load_file_rva);
 				return; 
 			}
@@ -66,8 +66,8 @@ VOID StartHook()
 		{
 			uint32_t fn_find_entry_rva = ini[game_select][L"FindEntry"];
 
-			SetHookFolder(SaveString(ini[L"Folder_V1"][L"HookFolder"]));
-			SetReplaceFolder(SaveString(ini[L"Folder_V1"][L"ReplaceFolder"]));
+			SetHookFolder(SaveStrOnHeap(ini[L"Folder_V1"][L"HookFolder"]));
+			SetReplaceFolder(SaveStrOnHeap(ini[L"Folder_V1"][L"ReplaceFolder"]));
 			SetFileHook_V1(g_dwExeBase + fn_find_entry_rva); 
 			return;
 		}
