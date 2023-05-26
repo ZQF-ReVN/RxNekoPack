@@ -4,8 +4,8 @@
 Coming soon...
 
 ## To Do List
-### V1 Version
-O  Analysis（??-2004）  
+### V1 Version （??-2004）
+O  Analysis  
 O  Pack Unpack  
 X  Pack Repack  
 X  Text Extract  
@@ -13,8 +13,8 @@ X  Text Insert
 O  Hook File Read Priority  
 X  Hook File Runtime Dump (Not Necessary)  
 
-### V2 Version
-O  Analysis（2006-2008）  
+### V2 Version （2006-2008）
+O  Analysis  
 O  Pack Unpack  
 X  Pack Repack  
 X  Text Extract  
@@ -22,8 +22,8 @@ X  Text Insert
 X  Hook File Read Priority (Not Necessary)  
 X  Hook File Runtime Dump (Not Necessary)  
 
-### V3 Version
-O  Analysis（2008-now）  
+### V3 Version （2008-now）
+O  Analysis  
 X  Pack Unpack  
 X  Pack Repack  
 O  Text Extract  
