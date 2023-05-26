@@ -1,6 +1,6 @@
 NekoPack New Version (2008 - ) [Chartreux Inc.][Hash File Name]
 Pack Siganture "NEKOPACK"'
-NEKOAPCK_V2
+NEKOAPCK_V3
 
 2016-07-29 Pure More    少女マイノリティ-慰めの愛-
 2015-12-18 Chelsea Soft ソラコイ
@@ -11,7 +11,7 @@ NEKOAPCK_V2
 
 NekoPack Old Version ( - 2006)  [Omegavision Inc.]
 Pack Siganture "NEKOPACK"'
-NEKOAPCK_V1_5
+NEKOAPCK_V2
 
 2006-11-24 Navel        Really? Really!
 
