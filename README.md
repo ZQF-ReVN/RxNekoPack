@@ -31,3 +31,15 @@ O  Hook File Runtime Dump
 ### MNG File
 O Unpack To Png  
 O Repack From Multiple Png Files  
+
+## Tested Game
+ソラコイ  
+少女アクティビティ patch 102  
+少女マイノリティ-慰めの愛- patch 101  
+Stellar☆Theater encore  
+Stellar☆Theater patch 102  
+ノストラダムスに聞いてみろ♪  
+ReallyReally  
+3days～満ちてゆく刻の彼方で～  
+Tick! Tack!  
+
