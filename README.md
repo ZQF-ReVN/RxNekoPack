@@ -1,10 +1,11 @@
 # NekoPackTools
+A simple project for an upcoming tutorial I'm working on.
 
 # Usage
 Coming soon...
 
 ## To Do List
-### V1 Version （??-2004）
+### V1 Version （?? - 2004）
 O  Analysis  
 O  Pack Unpack  
 X  Pack Repack  
@@ -13,7 +14,7 @@ X  Text Insert
 O  Hook File Read Priority  
 X  Hook File Runtime Dump (Not Necessary)  
 
-### V2 Version （2006-2008）
+### V2 Version （2006 - 2008）
 O  Analysis  
 O  Pack Unpack  
 X  Pack Repack  
@@ -22,7 +23,7 @@ X  Text Insert
 X  Hook File Read Priority (Not Necessary)  
 X  Hook File Runtime Dump (Not Necessary)  
 
-### V3 Version （2008-now）
+### V3 Version （2008 - Now）
 O  Analysis  
 X  Pack Unpack  
 X  Pack Repack  
