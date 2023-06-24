@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NekoPack_TextEditor", "src\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NekoPack_Pack_V2_Editor", "src\NekoPack_Pack_V2_Editor\NekoPack_Pack_V2_Editor.vcxproj", "{3FFA2823-A6D3-4C64-86C7-1AA23D6FE090}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NekoPack_Fuck_PK02", "src\NekoPack_Fuck_PK02\NekoPack_Fuck_PK02.vcxproj", "{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -85,6 +87,14 @@ Global
 		{3FFA2823-A6D3-4C64-86C7-1AA23D6FE090}.Release|x64.Build.0 = Release|x64
 		{3FFA2823-A6D3-4C64-86C7-1AA23D6FE090}.Release|x86.ActiveCfg = Release|Win32
 		{3FFA2823-A6D3-4C64-86C7-1AA23D6FE090}.Release|x86.Build.0 = Release|Win32
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Debug|x64.ActiveCfg = Debug|x64
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Debug|x64.Build.0 = Debug|x64
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Debug|x86.ActiveCfg = Debug|Win32
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Debug|x86.Build.0 = Debug|Win32
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Release|x64.ActiveCfg = Release|x64
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Release|x64.Build.0 = Release|x64
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Release|x86.ActiveCfg = Release|Win32
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +107,7 @@ Global
 		{18DCBFBC-8729-4509-BBD3-BD38AC8FD6AC} = {95BEB115-4DA1-4815-A66A-6E13E1F7B2CA}
 		{8F947E8B-EF01-4795-8B57-EE85400F99E0} = {95BEB115-4DA1-4815-A66A-6E13E1F7B2CA}
 		{3FFA2823-A6D3-4C64-86C7-1AA23D6FE090} = {95BEB115-4DA1-4815-A66A-6E13E1F7B2CA}
+		{A58D1ED4-65FB-4509-A320-58B1C1B2E8A4} = {95BEB115-4DA1-4815-A66A-6E13E1F7B2CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0BBEC40-69CC-42B1-97EE-B7E536580F06}

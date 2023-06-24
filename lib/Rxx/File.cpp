@@ -11,18 +11,23 @@ namespace Rut
 {
 	namespace FileX
 	{
+		void CreateDirectoryViaPath(const wchar_t* wpPath)
+		{
+			std::wstring dir = PathRemoveFileName(GetCurrentDirW() + wpPath);
+			FormatSlash_Ptr((wchar_t*)dir.c_str(), L'\\');
+			SHCreateDirectoryExW(NULL, dir.c_str(), NULL);
+		}
+
 		void SaveFileViaPath(const wchar_t* wpPath, void* pData, size_t nBytes)
 		{
-			std::wstring path = PathRemoveFileName(GetCurrentDirW() + wpPath);
-			FormatSlash_Ptr((wchar_t*)path.c_str(), L'\\');
-			SHCreateDirectoryExW(NULL, path.c_str(), NULL);
+			CreateDirectoryViaPath(wpPath);
 
-			HANDLE hFile = CreateFileW(wpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (hFile == INVALID_HANDLE_VALUE) { throw std::runtime_error("SaveFileViaPath: Create File Error!"); }
+			HANDLE hfile = CreateFileW(wpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			if (hfile == INVALID_HANDLE_VALUE) { throw std::runtime_error("SaveFileViaRelaPath: Create File Error!"); }
 
-			WriteFile(hFile, pData, nBytes, NULL, NULL);
-			FlushFileBuffers(hFile);
-			CloseHandle(hFile);
+			WriteFile(hfile, pData, nBytes, NULL, NULL);
+			FlushFileBuffers(hfile);
+			CloseHandle(hfile);
 		}
 
 		void SaveFileViaPath(const char* cpPath, void* pData, size_t nBytes)

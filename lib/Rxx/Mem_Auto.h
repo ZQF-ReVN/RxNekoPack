@@ -24,10 +24,10 @@ namespace Rut
 			~AutoMem();
 
 			template <typename T_Ptr>
-			operator T_Ptr* () { return m_pData; }
+			operator T_Ptr* () { return (T_Ptr*)m_pData; }
 
 			template <typename T_Type>
-			operator T_Type () { return m_szData; }
+			operator T_Type () { return (T_Type)m_szData; }
 
 			template <typename T_Size>
 			AutoMem& operator[] (T_Size tSize) { ReSize(tSize); return *this; }
